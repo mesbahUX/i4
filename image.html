@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>نمایش تصویر | مصباح</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/image.css">
+    <link rel="stylesheet" href="css/rows.css">
+
+</head>
+
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <div
+        id="header"
+        data-component="components/header.html">
+    </div>
+
+
+    <!-- ================= CONTENT ================= -->
+
+    <main class="page">
+
+        <!-- =====================================================
+            IMAGE HERO
+        ====================================================== -->
+
+        <section class="image-hero">
+
+            <!-- IMAGE -->
+            <div class="image-wrapper">
+
+                <img
+                    id="image"
+                    class="image-main"
+                    src=""
+                    alt=""
+                >
+
+            </div>
+
+
+            <!-- IMAGE INFO -->
+            <div class="image-info">
+
+                <h1
+                    id="image-title"
+                    class="image-title"
+                ></h1>
+
+
+                <!-- ACTIONS -->
+                <div class="image-actions">
+
+                    <button
+                        id="download-btn"
+                        class="image-action"
+                        type="button"
+                    >
+                        <i class="fa-solid fa-download"></i>
+                        <span>دانلود</span>
+                    </button>
+
+
+                    <button
+                        id="share-btn"
+                        class="image-action"
+                        type="button"
+                    >
+                        <i class="fa-solid fa-share-nodes"></i>
+                        <span>اشتراک‌گذاری</span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="save-btn"
+                        class="image-action"
+                    >
+                        <i
+                            id="save-icon"
+                            class="fa-regular fa-bookmark"
+                        ></i>
+
+                        <span id="save-text">
+                            ذخیره
+                        </span>
+                    </button>
+
+                </div>
+
+
+                <!-- TAGS -->
+                <div class="image-tags-wrapper">
+
+                    <span class="image-tags-title">
+                        برچسب‌ها
+                    </span>
+
+                    <div
+                        id="image-tags"
+                        class="image-tags"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =====================================================
+            SIMILAR IMAGES
+        ====================================================== -->
+
+        <section class="content-group">
+            <section class="content-row">
+
+                <div class="content-row-header">
+
+                    <h2 data-content-info="topic">
+                        تصاویر مشابه
+                    </h2>
+
+                    <a
+                        href="results.html?format=image"
+                        class="view-all"
+                    >
+                        مشاهده همه
+
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+
+                </div>
+
+
+                <div
+                    class="content-slider"
+                    data-xml="data/images.xml"
+                    data-type="image"
+                ></div>
+
+            </section>
+        </section>
+    </main>
+
+
+    <!-- Footer -->
+    <div
+        id="footer"
+        data-component="components/footer.html">
+    </div>
+    
+    <!-- ================= JS ================= -->
+
+    <script src="js/global.js"></script>
+    <script src="js/image.js"></script>
+    <script src="js/cards.js"></script>
+    <script src="js/rows.js"></script>
+</body>
+
+</html>

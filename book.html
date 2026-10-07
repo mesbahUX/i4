@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>سامانه مصباح</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/book.css">
+    <link rel="stylesheet" href="css/rows.css">
+
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div
+        id="header"
+        data-component="components/header.html">
+    </div>
+
+    <main class="page">
+
+        <!-- =====================================================
+            BOOK HERO
+        ====================================================== -->
+
+        <section class="book-hero">
+
+            <!-- BOOK COVER -->
+            <div class="book-cover-wrapper">
+
+                <img
+                    id="book-cover"
+                    class="book-cover"
+                    src=""
+                    alt=""
+                >
+
+            </div>
+
+
+            <!-- BOOK INFO -->
+            <div class="book-info">
+
+                <h1 id="book-title" class="book-title"></h1>
+
+                <div class="book-meta">
+    <!-- 
+                    <div class="book-meta-item">
+                        <span class="book-meta-label">عنوان</span>
+                        <span id="book-title"></span>
+                    </div> -->
+                    <div class="book-meta-item">
+                        <span class="book-meta-label">نویسنده</span>
+                        <span id="book-author"></span>
+                    </div>
+                    <div class="book-meta-item">
+                        <span class="book-meta-label">ناشر</span>
+                        <span id="book-publisher"></span>
+                    </div>
+
+                    <div class="book-meta-item">
+                        <span class="book-meta-label">سال انتشار</span>
+                        <span id="book-year"></span>
+                    </div>
+
+                    <!-- <div class="book-meta-item">
+                        <span class="book-meta-label">تعداد صفحات</span>
+                        <span id="book-pages"></span>
+                    </div> -->
+
+                </div>
+
+
+                <!-- ACTIONS -->
+                <div class="book-actions">
+
+                    <a
+                        id="book-download"
+                        class="book-download"
+                        href=""
+                        download
+                    >
+                        <i class="fa-solid fa-download"></i>
+                        <span>دانلود PDF</span>
+                    </a>
+
+                    <button
+                        type="button"
+                        id="book-share"
+                        class="book-action"
+                        aria-label="اشتراک‌گذاری"
+                    >
+                        <i class="fa-solid fa-share-nodes"></i>
+                    </button>
+
+                    <button
+                        type="button"
+                        id="book-save"
+                        class="book-action"
+                        aria-label="ذخیره"
+                    >
+                        <i class="fa-regular fa-bookmark"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =====================================================
+            SIMILAR BOOKS
+        ====================================================== -->
+        <section class="content-group">
+            <section class="content-row">
+
+                <div class="content-row-header">
+
+                    <h2 data-content-info="topic">
+                        کتاب‌های مشابه
+                    </h2>
+
+                    <a
+                        href="results.html?format=book"
+                        class="view-all"
+                    >
+                        مشاهده همه
+
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+
+                </div>
+
+
+                <div
+                    class="content-slider"
+                    data-xml="data/books.xml"
+                    data-type="book"
+                ></div>
+
+            </section>
+        </section>
+    </main>
+
+
+    <!-- Footer -->
+    <div
+        id="footer"
+        data-component="components/footer.html">
+    </div>
+
+    <script src="js/global.js"></script>
+    <script src="js/book.js"></script>
+    <script src="js/cards.js"></script>
+    <script src="js/rows.js"></script>
+</body>
+
+</html>
