@@ -1,0 +1,1059 @@
+@import url("./rows.css");
+@import url("./content-actions.css");
+
+/* =========================================================
+   DEFAULT
+========================================================= */
+
+.video-layout,
+.audio-layout {
+    display: none;
+}
+
+.audio-layout {
+    text-align: center;
+}
+
+/* =========================================================
+   VIDEO
+========================================================= */
+.video-box {
+    width: 100%;
+    overflow: hidden;
+    background: #111;
+    border-radius: 10px;
+}
+
+/* .video-box video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 10px;
+} */
+.video-box video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    background: #000;
+    border-radius: 10px;
+}
+.video-section {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: 20px;
+    align-items: start;
+}
+
+@media (min-width: 1200px) {
+    .video-section {
+        grid-template-columns: minmax(0, 1fr) 400px;
+    }
+}
+
+/* =========================================================
+   CUSTOM VIDEO PLAYER
+========================================================= */
+
+/* .custom-video-player {
+    position: relative;
+
+    overflow: hidden;
+
+    background: #000;
+
+    border-radius: 10px;
+
+    line-height: 0;
+}
+
+
+.custom-video-player video {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    cursor: pointer;
+} */
+
+.custom-video-player {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    border-radius: 10px;
+    line-height: 0;
+    aspect-ratio: 16 / 9;
+}
+
+.custom-video-player video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #000;
+    cursor: pointer;
+}
+/* =========================================================
+   CENTER PLAY
+========================================================= */
+
+.video-center-play {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 64px;
+    height: 64px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--primary-dark);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    font-size: 20px;
+
+    z-index: 5;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+/* فقط وقتی ویدیو متوقف است */
+
+.custom-video-player.video-paused
+.video-center-play {
+
+    opacity: 1;
+
+    pointer-events: auto;
+
+}
+
+
+/* هنگام hover */
+
+.custom-video-player.video-paused
+.video-center-play:hover {
+
+    transform:
+        translate(-50%, -50%)
+        scale(1.08);
+
+}
+
+
+.video-center-play:hover {
+    transform:
+        translate(-50%, -50%)
+        scale(1.08);
+}
+
+
+/* =========================================================
+   VIDEO CONTROLS
+========================================================= */
+
+.video-controls {
+    position: absolute;
+
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    padding:
+        0
+        14px
+        10px;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.88),
+            rgba(0, 0, 0, 0)
+        );
+
+    z-index: 6;
+
+    direction: ltr;
+
+    opacity: 0;
+
+    transform:
+        translateY(5px);
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.custom-video-player:hover
+.video-controls {
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.video-progress-wrapper {
+    width: 100%;
+}
+
+
+.video-progress-wrapper input {
+    display: block;
+
+    width: 100%;
+    height: 4px;
+
+    margin:
+        0
+        0
+        10px;
+
+    padding: 0;
+
+    appearance: none;
+
+    background:
+        rgba(255, 255, 255, 0.35);
+
+    border-radius: 10px;
+
+    cursor: pointer;
+}
+
+
+.video-progress-wrapper input::-webkit-slider-thumb {
+    appearance: none;
+
+    width: 12px;
+    height: 12px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        var(--primary-light);
+
+    cursor: pointer;
+}
+
+
+.video-progress-wrapper input::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        var(--primary-light);
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   CONTROL ROW
+========================================================= */
+
+.video-control-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    width: 100%;
+}
+
+
+.video-controls-right,
+.video-controls-left {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.video-control-button {
+    width: 32px;
+    height: 32px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #fff;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+
+    transition:
+        background 0.2s ease;
+}
+
+
+.video-control-button:hover {
+    background:
+        rgba(255, 255, 255, 0.14);
+}
+
+
+/* =========================================================
+   10 SECOND BUTTON
+========================================================= */
+
+.video-skip {
+    position: relative;
+
+    gap: 2px;
+}
+
+
+.video-skip i {
+    font-size: 13px;
+}
+
+
+.video-skip span {
+    font-size: 9px;
+
+    line-height: 1;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   VOLUME
+========================================================= */
+
+.video-volume {
+    width: 65px;
+    height: 3px;
+
+    padding: 0;
+
+    appearance: none;
+
+    background:
+        rgba(255, 255, 255, 0.35);
+
+    cursor: pointer;
+}
+
+
+.video-volume::-webkit-slider-thumb {
+    appearance: none;
+
+    width: 9px;
+    height: 9px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #fff;
+}
+
+
+.video-volume::-moz-range-thumb {
+    width: 9px;
+    height: 9px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #fff;
+}
+
+
+/* =========================================================
+   TIME
+========================================================= */
+
+.video-time {
+    color: #fff;
+
+    font-size: 12px;
+
+    direction: ltr;
+
+    white-space: nowrap;
+
+    line-height: 1;
+}
+
+
+.video-time-separator {
+    color:
+        rgba(255, 255, 255, 0.55);
+
+    font-size: 12px;
+}
+
+.video-speed-control {
+    position: relative;
+}
+
+.video-speed-menu {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+
+    display: none;
+
+    min-width: 90px;
+
+    padding: 6px;
+
+    background: #202020;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.25);
+
+    z-index: 20;
+}
+
+.video-speed-menu.show {
+    display: flex;
+
+    flex-direction: column;
+}
+
+.video-speed-menu button {
+    border: 0;
+    background: transparent;
+
+    color: #fff;
+
+    padding: 8px 12px;
+
+    cursor: pointer;
+
+    text-align: center;
+
+    border-radius: 5px;
+}
+
+.video-speed-menu button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 700px) {
+
+    .custom-video-player {
+        border-radius: 0;
+    }
+
+
+    .video-center-play {
+        width: 50px;
+        height: 50px;
+
+        font-size: 16px;
+    }
+
+
+    .video-controls {
+        padding:
+            0
+            9px
+            7px;
+    }
+
+
+    .video-volume {
+        display: none;
+    }
+
+
+    .video-time {
+        font-size: 10px;
+    }
+
+
+    .video-control-button {
+        width: 28px;
+        height: 28px;
+
+        font-size: 12px;
+    }
+
+
+    .video-skip span {
+        font-size: 8px;
+    }
+
+}
+.video-content-column {
+    min-width: 0;
+}
+
+.video-side-row {
+    width: 100%;
+    /* max-width: 400px; */
+}
+
+/* ویدیو: چپ بالا */
+/* .video-box {
+    grid-column: 1;
+    grid-row: 1;
+} */
+
+/* اطلاعات: چپ پایین */
+/* .video-information {
+    grid-column: 1;
+    grid-row: 2;
+    width: 100%;
+    padding-top: 0;
+} */
+
+/* ساید: راست، هر دو ردیف */
+/* .video-side-row {
+    width: 100%;
+    max-width: 400px;
+    grid-column: 2;
+    grid-row: 1 / 3;
+} */
+/* =========================================================
+   VIDEO INFORMATION
+========================================================= */
+
+.video-information {
+    text-align: right;
+    padding-top: 0.6rem;
+
+}
+
+.video-information h1 {
+    margin: 0;
+    color: var(--text);
+    font-size: var(--fs-lg);
+    line-height: 1.7;
+    font-weight: 800;
+}
+
+.video-divider {
+    width: 100%;
+    height: 1px;
+    margin-top: 1rem;
+    background: var(--border);
+}
+/* =========================================================
+   TAGS
+========================================================= */
+
+.content-tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+    margin-top: .8rem;
+    padding: 0;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.content-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: .35rem .8rem;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+
+    background: var(--surface);
+    color: var(--text-light);
+
+    text-decoration: none;
+    font-family: var(--font-family);
+    font-size: .78rem;
+
+    transition:
+        color .2s ease,
+        background .2s ease,
+        border-color .2s ease;
+}
+
+.content-tag:hover {
+    color: var(--primary-dark);
+    background: var(--primary-soft);
+    border-color: var(--primary-light);
+}
+
+
+/* =========================================================
+   SPEAKER
+========================================================= */
+.speaker-profile {
+    display: inline-flex;
+    align-items: center;
+    gap: .7rem;
+
+    margin-top: .8rem;
+
+    color: var(--text);
+    text-decoration: none;
+}
+
+.speaker-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 44px;
+    height: 44px;
+
+    border-radius: 50%;
+    overflow: hidden;
+
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+
+    font-weight: 700;
+}
+
+.speaker-profile span {
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.audio-information .speaker-profile {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-left: auto;
+    margin-right: 0;
+}
+/* =========================================================
+   TRANSCRIPT
+========================================================= */
+
+.transcript-section {
+    margin-top: .8rem;
+}
+
+/* .transcript-text {
+    color: var(--text-light);
+    font-size: .92rem;
+    line-height: 2;
+
+    overflow: hidden;
+    white-space: pre-line;
+} */
+
+.transcript-text {
+    color: var(--text-light);
+    font-size: .92rem;
+    line-height: 2;
+
+    white-space: pre-line;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+/* .transcript-text.collapsed {
+    max-height: 4rem;
+}
+
+.transcript-text.expanded {
+    max-height: 3000px;
+} */
+
+/* .transcript-more {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+
+    margin-top: .4rem;
+    padding: 0;
+
+    border: none;
+    background: transparent;
+
+    color: var(--primary-dark);
+    font-family: var(--font-family);
+    font-size: .82rem;
+
+    cursor: pointer;
+}
+
+.transcript-more i {
+    font-size: .65rem;
+    transition: transform .2s ease;
+} */
+
+
+/* =========================================================
+   AUDIO SECTION
+========================================================= */
+
+.content-divider {
+    width: 100%;
+    height: 1px;
+    /* margin-bottom: 1rem; */
+    margin-top: 2rem;
+    background: var(--border);
+}
+
+
+/* =========================================================
+   AUDIO COVER
+========================================================= */
+
+.audio-cover-container {
+    display: flex;
+    justify-content: center;
+}
+
+.audio-cover {
+    width: min(320px, 60vw);
+    aspect-ratio: 1 / 1;
+
+    object-fit: cover;
+
+    border-radius: 24px;
+
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .08);
+}
+
+
+/* =========================================================
+   AUDIO INFORMATION
+========================================================= */
+
+.audio-information {
+    width: min(700px, 100%);
+    margin: 1.5rem auto;
+}
+
+.audio-information h1 {
+    margin: 1.6rem 0 0;
+    color: var(--text);
+    font-size: var(--fs-xlg);
+    line-height: 1.6;
+    font-weight: 800;
+}
+
+.audio-information h2 {
+    color: var(--text);
+    font-size: var(--fs-xlg);
+}
+.audio-tags {
+    justify-content: flex-start;
+}
+/* ترنسکریپت سمت راست */
+.audio-information .transcript-section {
+    text-align: right;
+}
+
+.audio-information .transcript-text {
+    text-align: right;
+}
+/* =========================================================
+   AUDIO PLAYER
+========================================================= */
+
+.audio-player {
+    width: min(700px, 100%);
+    margin: 2rem auto 0;
+}
+
+.audio-progress {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+
+    color: var(--text-light);
+    font-size: .72rem;
+
+    direction: ltr;
+}
+
+.audio-progress input {
+    flex: 1;
+
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.audio-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 1.5rem;
+    margin-top: 1rem;
+
+    direction: ltr;
+}
+
+.audio-control,
+.audio-play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    cursor: pointer;
+}
+
+.audio-control {
+    width: 40px;
+    height: 40px;
+
+    background: transparent;
+    color: var(--text);
+
+    font-size: .95rem;
+}
+
+.audio-play {
+    width: 55px;
+    height: 55px;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+    color: white;
+
+    font-size: 1rem;
+}
+
+.audio-skip {
+    position: relative;
+}
+.audio-skip i {
+    font-size: 1.5rem;
+}
+.audio-skip span {
+    position: absolute;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+/* =========================================================
+   AUDIO SPEED
+========================================================= */
+
+.audio-speed-control {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+
+/* SPEED BUTTON */
+
+.audio-speed-control .audio-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 42px;
+    height: 36px;
+
+    padding: 0 8px;
+
+    border: none;
+    background: transparent;
+
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: opacity 0.2s ease;
+}
+
+.audio-speed-control .audio-control:hover {
+    opacity: 0.7;
+}
+
+
+/* SPEED MENU */
+
+.audio-speed-menu {
+    position: absolute;
+
+    bottom: calc(100% + 8px);
+    right: 50%;
+
+    transform: translateX(50%) translateY(5px);
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 75px;
+
+    padding: 6px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.12);
+
+    opacity: 0;
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0.2s ease;
+
+    z-index: 100;
+}
+
+
+/* OPEN */
+
+.audio-speed-menu.show {
+    opacity: 1;
+    visibility: visible;
+
+    pointer-events: auto;
+
+    transform: translateX(50%) translateY(0);
+}
+
+
+/* MENU ITEMS */
+
+.audio-speed-menu button {
+    width: 100%;
+
+    padding: 7px 10px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: transparent;
+
+    font-family: inherit;
+    font-size: 0.8rem;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+/* HOVER */
+
+.audio-speed-menu button:hover {
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+}
+
+
+/* ACTIVE 1x */
+
+.audio-speed-menu button[data-speed="1"] {
+    font-weight: 600;
+}
+/* @media (min-width: 701px) {
+
+    .content-group .content-row:first-child {
+        display: none !important;
+    }
+
+} */
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .content-page {
+        padding: 1.2rem 1rem 4rem;
+    }
+
+    .video-information h1,
+    .audio-information h1 {
+        font-size: 1.4rem;
+    }
+
+    .video-box {
+        border-radius: 14px;
+    }
+
+    .audio-cover {
+        width: min(300px, 82vw);
+        border-radius: 18px;
+    }
+
+    .video-side-row {
+        display: none !important;
+    }
+
+    .video-section {
+        grid-template-columns: 1fr;
+    }
+}

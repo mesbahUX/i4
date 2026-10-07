@@ -1,0 +1,2176 @@
+/* #region FILTER */
+
+.filter-fields {
+    width: 70%;
+    margin: 0 auto 20px auto;
+    background: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.6rem;
+
+    min-width: 0;
+}
+
+.filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    width: 200px;
+    flex: 0 0 200px;
+}
+
+
+/* =========================================
+   SELECT
+========================================= */
+
+.filter-field select {
+    width: 100%;
+    height: 44px;
+
+    padding: 0 0.85rem;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+
+    background-color: var(--surface);
+    color: var(--text);
+
+    font-family: var(--font-family);
+    font-size: var(--fs-sm);
+
+    cursor: pointer;
+    outline: none;
+
+    transition:
+        border-color var(--transition),
+        background-color var(--transition),
+        box-shadow var(--transition);
+}
+
+
+.filter-field select:hover {
+    border-color: var(--primary-light);
+    background-color: var(--surface);
+}
+
+
+.filter-field select:focus {
+    border-color: var(--primary);
+
+    background-color: var(--surface);
+
+    box-shadow:
+        0 0 0 3px rgba(186, 153, 78, 0.12);
+}
+
+
+/* =========================================
+   FILTER BUTTON
+========================================= */
+
+.filter-button {
+    width: 130px;
+    height: 44px;
+
+    flex: 0 0 130px;
+
+    padding: 0 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.45rem;
+
+    border: 1px solid var(--primary);
+    border-radius: var(--radius-lg);
+
+    background: var(--primary);
+    color: var(--surface);
+
+    font-family: var(--font-family);
+    font-size: var(--fs-sm);
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background-color var(--transition),
+        border-color var(--transition),
+        transform var(--transition);
+}
+
+
+.filter-button:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+
+.filter-button:active {
+    transform: scale(0.97);
+}
+
+/* =========================================
+   ACTIVE FILTERS
+========================================= */
+
+.active-filters {
+    display: flex;
+    align-items: center;
+
+    gap: 0.35rem;
+
+    flex: 0 0 auto;
+
+    min-width: 0;
+}
+
+
+/* =========================================
+   ACTIVE FILTER TAG
+========================================= */
+
+.active-filter-tag {
+    display: inline-flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    gap: 0.35rem;
+
+    height: 44px;
+    padding: 0 0.65rem;
+
+    border: 1px solid var(--primary-light);
+    border-radius: var(--radius-lg);
+
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+
+    font-size: var(--fs-sm);
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   ACTIVE FILTER LABEL
+========================================= */
+
+.active-filter-label {
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   REMOVE FILTER
+========================================= */
+
+.remove-filter {
+    width: 18px;
+    height: 18px;
+
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: transparent;
+
+    color: var(--primary-dark);
+
+    cursor: pointer;
+
+    font-size: 0.65rem;
+
+    transition:
+        background-color var(--transition),
+        color var(--transition);
+}
+
+
+.remove-filter:hover {
+    background: var(--primary-dark);
+    color: var(--surface);
+}
+/* =========================================
+   TABLET
+========================================= */
+
+@media (min-width: 769px) and (max-width: 1050px) {
+
+    .filter-fields {
+        width: 80%;
+        flex-wrap: wrap;
+    }
+
+    .filter-button {
+        width: 130px;
+        flex: 0 0 130px;
+    }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .filter-fields {
+        width: 90%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.8rem;
+    }
+
+    .filter-field {
+        width: 100%;
+        flex: none;
+    }
+
+    .filter-field select {
+        height: 42px;
+    }
+
+    .filter-button {
+        width: 100%;
+        flex: none;
+        height: 42px;
+    }
+}
+
+/* #endregion */
+
+/* #region CONTENT CARD */
+
+.content-card {
+    flex: 0 0 250px;
+    position: relative;
+
+    padding: 5px 5px;
+    overflow: visible;
+
+    background: transparent;
+
+    text-decoration: none;
+
+    border-radius: var(--radius-md);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.content-card:hover {
+    transform: translateY(-4px);
+
+    /* box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.08); */
+}
+
+
+/* =========================================
+   CARD IMAGE
+========================================= */
+
+.content-card-image {
+    position: relative;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    background: var(--border);
+
+    border-radius: var(--radius-md);
+}
+
+
+/* =========================================
+   VIDEO CARD
+========================================= */
+
+.content-card.video-card .content-card-image {
+    aspect-ratio: 16 / 9;
+}
+
+
+/* =========================================
+   AUDIO CARD
+========================================= */
+
+.content-card.audio-card .content-card-image {
+    aspect-ratio: 1 / 1;
+}
+
+
+/* =========================================
+   IMAGE
+========================================= */
+
+.content-card-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition: transform 0.3s ease;
+}
+
+.content-card:hover .content-card-image img {
+    transform: scale(1.04);
+}
+
+
+/* =========================================
+   VIDEO PLAY ICON
+========================================= */
+
+.content-card-icon {
+    position: absolute;
+
+    top: 0.65rem;
+    left: 0.65rem;
+
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.65);
+
+    color: var(--surface);
+
+    border-radius: 50%;
+
+    font-size: 0.7rem;
+
+    z-index: 2;
+}
+
+
+/* =========================================
+   VIDEO DURATION
+========================================= */
+
+.video-duration {
+    position: absolute;
+
+    bottom: 0.65rem;
+    left: 0.65rem;
+
+    padding: 0.2rem 0.45rem;
+
+    background: rgba(0, 0, 0, 0.7);
+
+    color: var(--surface);
+
+    border-radius: var(--radius-sm);
+
+    font-size: var(--fs-xs);
+
+    line-height: 1.3;
+
+    z-index: 2;
+}
+
+
+/* =========================================
+   CARD BODY
+========================================= */
+
+.content-card-body {
+    padding: 0.9rem 0.2rem;
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+.content-card-body h3 {
+    margin: 0 0 0.5rem;
+
+    color: var(--text);
+
+    font-size: var(--fs-sm);
+    font-weight: 700;
+
+    line-height: 1.7;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   SPEAKER
+========================================= */
+
+.content-card-body p {
+    margin: 0;
+
+    color: var(--text-light);
+
+    font-size: var(--fs-xs);
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .content-card {
+        flex: 0 0 190px;
+
+        border-radius: 10px;
+    }
+
+
+    /* Video */
+
+    .content-card.video-card .content-card-image {
+        aspect-ratio: 16 / 9;
+    }
+
+
+    /* Audio */
+
+    .content-card.audio-card .content-card-image {
+        aspect-ratio: 1 / 1;
+    }
+
+
+    .content-card-body {
+        padding: 0.7rem 0.1rem;
+    }
+
+
+    .content-card-body h3 {
+        font-size: 0.82rem;
+    }
+
+
+    .content-card-body p {
+        font-size: 0.7rem;
+    }
+
+
+    .content-card-icon {
+        width: 20px;
+        height: 20px;
+
+        /* top: 0.5rem; */
+        /* left: 0.5rem; */
+
+        font-size: 0.5rem;
+    }
+
+
+    .video-duration {
+        bottom: 0.5rem;
+        left: 0.5rem;
+
+        font-size: 0.65rem;
+    }
+}
+
+/* #endregion */
+
+/* #region PLAYLIST CARD */
+
+.playlist-card {
+    display: block;
+    text-decoration: none;
+    color: var(--text);
+    min-width: 0;
+    position: relative;
+    overflow: visible;
+
+    container-type: inline-size;
+}
+
+/* =========================================================
+   PLAYLIST IMAGE AREA
+========================================================= */
+
+.playlist-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    margin-top: 18px;
+    margin-bottom: 1rem;
+}
+
+
+/* =========================================================
+   THREE IMAGES
+========================================================= */
+
+.playlist-images {
+    position: absolute;
+    inset: 0;
+}
+
+
+/* هر سه عکس */
+
+.playlist-images img {
+    position: absolute;
+    width: 94%;
+    height: 94%;
+    object-fit: cover;
+
+    left: 3%;
+
+    border-radius: var(--radius-md);
+
+    box-shadow:
+        0 5px 16px rgba(0, 0, 0, 0.10);
+
+    transition:
+        transform 0.25s ease,
+        filter 0.25s ease;
+}
+
+
+/* =========================================================
+   BACK IMAGE 1
+========================================================= */
+
+.playlist-images img:nth-child(1) {
+    top: -16px;
+
+    transform:
+        scale(0.94);
+
+    opacity: 0.55;
+
+    z-index: 0;
+}
+
+
+/* =========================================================
+   BACK IMAGE 2
+========================================================= */
+
+.playlist-images img:nth-child(2) {
+    top: -8px;
+
+    transform:
+        scale(0.98);
+
+    opacity: 0.75;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   MAIN IMAGE
+========================================================= */
+
+.playlist-images img:nth-child(3) {
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+    left: 0;
+
+    transform: none;
+
+    opacity: 1;
+
+    filter: none;
+
+    z-index: 3;
+
+    box-shadow:
+        0 7px 20px rgba(0, 0, 0, 0.13);
+    transition:
+        transform 0.25s ease,
+        filter 0.25s ease;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.playlist-card:hover .playlist-images img:nth-child(1) {
+    transform:
+        scale(0.90)
+        translateY(-2px);
+}
+
+
+.playlist-card:hover .playlist-images img:nth-child(2) {
+    transform:
+        scale(0.95)
+        translateY(-2px);
+}
+
+
+.playlist-card:hover .playlist-images img:nth-child(3) {
+    transform: translateY(-4px);
+    filter: brightness(0.5);
+}
+
+.playlist-card:hover .playlist-info {
+    opacity: 0;
+    transform: translateY(5px);
+}
+
+
+.playlist-hover-text {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 10;
+
+    width: 80%;
+
+    color: var(--surface);
+
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    line-height: 1.8;
+
+    text-align: center;
+
+    opacity: 0;
+
+    transition: opacity 0.25s ease;
+
+    pointer-events: none;
+}
+
+.playlist-card:hover .playlist-hover-text {
+    opacity: 1;
+}
+/* =========================================================
+   PLAYLIST INFO
+========================================================= */
+
+.playlist-info {
+    position: absolute;
+
+    bottom: 0.75rem;
+    left: 0.75rem;
+
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+
+    gap: 0.45rem;
+
+    padding: 0.4rem 0.65rem;
+
+    background: rgba(0, 0, 0, 0.68);
+
+    color: var(--surface);
+
+    border-radius: var(--radius-sm);
+
+    font-size: var(--fs-xs);
+    line-height: 1.4;
+
+    backdrop-filter: blur(4px);
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.playlist-info i {
+    font-size: 0.8rem;
+}
+
+@container (max-width: 105px) {
+
+    .playlist-info span {
+        display: none;
+    }
+
+}
+
+/* =========================================================
+   PLAYLIST TITLE
+========================================================= */
+
+.playlist-card h3 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: var(--fs-md);
+    font-weight: 700;
+
+    line-height: 1.7;
+
+    text-align: center;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+@media (max-width: 1050px) {
+    .playlist-card.show-info .playlist-hover-text {
+        opacity: 1;
+    }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .playlist-image {
+        margin-bottom: 0.7rem;
+    }
+
+
+    .playlist-images img {
+        border-radius: 10px;
+    }
+
+
+    .playlist-images img:nth-child(1) {
+        top: -12px;
+    }
+
+
+    .playlist-images img:nth-child(2) {
+        top: -6px;
+    }
+
+
+    .playlist-images img:nth-child(3) {
+        top: 0;
+    }
+
+
+    .playlist-info {
+        bottom: 0.5rem;
+        left: 0.5rem;
+
+        gap: 0.35rem;
+
+        padding: 0.3rem 0.5rem;
+
+        font-size: 0.68rem;
+    }
+
+
+    .playlist-info i {
+        font-size: 0.7rem;
+    }
+
+
+    .playlist-card h3 {
+        font-size: 0.82rem;
+    }
+
+}
+
+/* #endregion */
+
+/* #region BOOK CARD */
+
+.book-card {
+    flex: 0 0 190px;
+
+    position: relative;
+
+    padding: 5px;
+
+    overflow: visible;
+
+    background: transparent;
+
+    text-decoration: none;
+
+    border-radius: var(--radius-md);
+    direction: rtl;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+    z-index: 1;
+}
+
+.book-card:hover {
+    transform: translateY(-4px);
+
+    /* کتاب باز شده روی بقیه کتاب‌ها */
+    z-index: 20;
+}
+
+
+/* =========================================================
+   BOOK AREA
+========================================================= */
+
+.book-card__cover {
+    position: relative;
+
+    width: 100%;
+    height: 185px;
+
+    margin: 5px 0 18px;
+
+    perspective: 1200px;
+}
+
+
+/* =========================================================
+   BOOK
+========================================================= */
+
+.book {
+    position: absolute;
+
+    width: 120px;
+    height: 175px;
+
+    top: 50%;
+    left: 50%;
+
+    transform:
+        translate(-35%, -50%)
+        rotateY(0deg);
+
+    transform-style: preserve-3d;
+
+    transition:
+        transform .8s cubic-bezier(.22, .61, .36, 1);
+}
+
+
+/* =========================================================
+   BACK COVER
+   جلد پشت - فارسی
+========================================================= */
+
+.book__back {
+    position: absolute;
+
+    inset: 0;
+
+    border-radius:
+        5px 2px 2px 5px;
+
+    background:
+        linear-gradient(
+            to left,
+            var(--book-color-dark),
+            var(--book-color),
+            var(--book-color-dark)
+        );
+
+    transform:
+        translateZ(-10px);
+
+    box-shadow:
+        -4px 6px 12px rgba(0, 0, 0, .16);
+}
+
+
+/* =========================================================
+   PAGES
+   صفحات سمت چپ شیرازه
+========================================================= */
+
+.book__pages {
+    position: absolute;
+
+    top: 4px;
+    bottom: 4px;
+
+    right: 0;
+
+    width: 116px;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #fffef9 0,
+            #fffef9 2px,
+            #ddd9d0 2px,
+            #ddd9d0 3px
+        );
+
+    border-radius:
+        3px 1px 1px 3px;
+
+    transform:
+        translateZ(0);
+
+    box-shadow:
+        inset 3px 0 4px rgba(0, 0, 0, .08);
+
+    transition:
+        transform .8s cubic-bezier(.22, .61, .36, 1);
+}
+
+
+/* =========================================================
+   PAGE DETAILS
+========================================================= */
+
+.book__pages::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    left: 5px;
+
+    width: 1px;
+
+    background:
+        rgba(0, 0, 0, .08);
+}
+
+.book__pages::after {
+    content: "";
+
+    position: absolute;
+
+    left: 8px;
+    right: 3px;
+
+    bottom: 5px;
+
+    height: 2px;
+
+    background:
+        rgba(0, 0, 0, .06);
+}
+
+
+/* =========================================================
+   PAGE DEPTH
+========================================================= */
+
+.book__pages span {
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    right: 0;
+
+    width: 100%;
+
+    border-radius: 2px;
+
+    background:
+        #f8f6ef;
+
+    transform-origin:
+        left center;
+}
+
+.book__pages span:nth-child(1) {
+    transform: translateZ(-2px);
+}
+
+.book__pages span:nth-child(2) {
+    transform: translateZ(-4px);
+}
+
+.book__pages span:nth-child(3) {
+    transform: translateZ(-6px);
+}
+
+.book__pages span:nth-child(4) {
+    transform: translateZ(-8px);
+}
+
+.book__pages span:nth-child(5) {
+    transform: translateZ(-10px);
+}
+
+
+/* =========================================================
+   FRONT COVER
+   جلد جلو - شیرازه در سمت راست
+========================================================= */
+
+.book__front {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 5;
+
+    transform-style: preserve-3d;
+
+    /* مهم:
+       نقطه چرخش سمت راست جلد است */
+    transform-origin:
+        right center;
+
+    transform:
+        translateZ(8px);
+
+    transition:
+        transform .8s cubic-bezier(.22, .61, .36, 1);
+}
+
+
+/* =========================================================
+   FRONT - OUTSIDE
+========================================================= */
+
+.book__front-cover {
+    position: absolute;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    border-radius:
+        5px 2px 2px 5px;
+
+    background: #fff;
+
+    backface-visibility: hidden;
+
+    transform:
+        translateZ(1px);
+
+    box-shadow:
+        -3px 5px 8px rgba(0, 0, 0, .2);
+}
+
+.book__front-cover img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* =========================================================
+   FRONT - INSIDE
+========================================================= */
+
+.book__front-inside {
+    position: absolute;
+
+    inset: 0;
+
+    border-radius:
+        5px 2px 2px 5px;
+
+    background:
+        linear-gradient(
+            to left,
+            var(--book-color-dark),
+            var(--book-color),
+            var(--book-color-dark)
+        );
+
+    transform:
+        rotateY(-180deg)
+        translateZ(1px);
+
+    backface-visibility: hidden;
+}
+
+
+/* =========================================================
+   SPINE
+   شیرازه فارسی = سمت راست
+========================================================= */
+
+.book__spine {
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    right: -10px;
+
+    width: 12px;
+
+    z-index: 6;
+
+    background:
+        linear-gradient(
+            to left,
+            var(--book-color-dark),
+            var(--book-color),
+            var(--book-color-dark)
+        );
+
+    border-radius:
+        0 4px 4px 0;
+
+    transform:
+        translateZ(3px);
+
+    box-shadow:
+        inset 1px 0 rgba(0, 0, 0, .25),
+        inset -2px 0 rgba(255, 255, 255, .15);
+}
+
+
+/* =========================================================
+   SPINE DETAILS
+========================================================= */
+
+.book__spine::before {
+    content: "";
+
+    position: absolute;
+
+    top: 8px;
+    bottom: 8px;
+
+    right: 3px;
+
+    width: 1px;
+
+    background:
+        rgba(255, 255, 255, .25);
+}
+
+.book__spine::after {
+    content: "";
+
+    position: absolute;
+
+    top: 8px;
+    bottom: 8px;
+
+    left: 2px;
+
+    width: 1px;
+
+    background:
+        rgba(0, 0, 0, .2);
+}
+
+
+/* =========================================================
+   OPEN BOOK
+========================================================= */
+
+.book-card:hover .book {
+    transform:
+        translate(-50%, -50%)
+        translateX(-8px)
+        rotateY(0deg);
+}
+
+
+/* =========================================================
+   OPEN FRONT COVER
+   جلد از سمت راست به سمت چپ باز می‌شود
+========================================================= */
+
+.book-card:hover .book__front {
+    transform:
+        translateZ(8px)
+        rotateY(155deg);
+}
+
+
+/* =========================================================
+   PAGES MOVE
+========================================================= */
+
+.book-card:hover .book__pages {
+    transform:
+        translateX(-2px);
+}
+
+
+/* =========================================================
+   PAGE ANIMATION
+========================================================= */
+
+.book-card:hover .book__pages span:nth-child(1) {
+    transform:
+        translateZ(-2px)
+        rotateY(8deg);
+}
+
+.book-card:hover .book__pages span:nth-child(2) {
+    transform:
+        translateZ(-4px)
+        rotateY(6deg);
+}
+
+.book-card:hover .book__pages span:nth-child(3) {
+    transform:
+        translateZ(-6px)
+        rotateY(4deg);
+}
+
+.book-card:hover .book__pages span:nth-child(4) {
+    transform:
+        translateZ(-8px)
+        rotateY(2deg);
+}
+
+.book-card:hover .book__pages span:nth-child(5) {
+    transform:
+        translateZ(-10px);
+}
+
+
+/* =========================================================
+   CARD INFO
+========================================================= */
+
+.card-info {
+    padding: 0.9rem 0.2rem;
+}
+
+
+/* =========================================================
+   BOOK INFO
+========================================================= */
+
+.book-card__info {
+    padding: 0.9rem 0.2rem;
+}
+
+
+/* =========================================================
+   BOOK TITLE
+========================================================= */
+
+.book-card__title {
+    margin: 0 0 0.5rem;
+
+    color: var(--text);
+
+    font-size: var(--fs-sm);
+    font-weight: 700;
+
+    line-height: 1.7;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   BOOK AUTHOR
+========================================================= */
+
+.book-card__author {
+    margin: 0;
+
+    color: var(--text-light);
+
+    font-size: var(--fs-xs);
+}
+
+
+/* =========================================================
+   BOOK TYPE
+========================================================= */
+
+.book-card__type {
+    display: block;
+
+    margin: 0;
+
+    color: var(--text-light);
+
+    font-size: var(--fs-xs);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .book-card {
+        flex: 0 0 160px;
+    }
+
+    .book-card__cover {
+        width: 100%;
+        height: 160px;
+
+        margin: 5px 0 15px;
+    }
+
+    .book {
+        width: 105px;
+        height: 150px;
+    }
+
+    .book__pages {
+        width: 101px;
+    }
+
+    .book-card:hover .book {
+        transform:
+            translate(-50%, -50%)
+            translateX(-6px)
+            rotateY(0deg);
+    }
+
+    .book-card__info {
+        padding: 0.7rem 0.1rem;
+    }
+
+    .book-card__title {
+        font-size: 0.82rem;
+    }
+
+    .book-card__author,
+    .book-card__type {
+        font-size: 0.7rem;
+    }
+}
+
+/* #endregion */
+
+/* #region IMAGE CARD */
+
+.image-card {
+    position: relative;
+    flex: 0 0 140px;
+
+    /* padding: 5px; */
+
+    overflow: visible;
+
+    background: transparent;
+
+    text-decoration: none;
+
+    border-radius: var(--radius-md);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.image-card:hover {
+    transform: translateY(-4px);
+}
+
+
+/* =========================================
+   IMAGE AREA
+========================================= */
+
+.image-card-image {
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+    overflow: visible;
+    background: transparent;
+    border-radius: var(--radius-md);
+}
+
+
+/* =========================================
+   PHOTO
+========================================= */
+.image-card-photo {
+    position: relative;
+
+    width: 100%;
+    margin: 0 auto;
+
+    aspect-ratio: 230 / 280;
+
+    padding: 8px;
+
+    box-sizing: border-box;
+
+    background: #fff;
+
+    transform-origin: 100% 0%;
+    transform: rotate(-16deg);
+
+    box-shadow:
+        8px 18px 25px rgba(0, 0, 0, 0.20);
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+
+    z-index: 1;
+}
+
+
+/* =========================================
+   IMAGE
+========================================= */
+
+.image-card-photo img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* =========================================
+   HANGING CORNER
+========================================= */
+
+.image-card-photo::before {
+    content: "";
+
+    position: absolute;
+
+    top: -7px;
+    right: -7px;
+
+    width: 22px;
+    height: 22px;
+
+    background: #fff;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.12);
+
+    z-index: 5;
+}
+
+
+/* =========================================
+   PHOTO SHADOW
+========================================= */
+
+.image-card-photo::after {
+    content: "";
+
+    position: absolute;
+
+    left: 16%;
+    bottom: -20px;
+    width: 68%;
+    height: 24px;
+
+    background: rgba(0, 0, 0, 0.18);
+
+    filter: blur(14px);
+
+    transform: rotate(2deg);
+
+    z-index: -1;
+}
+
+
+/* =========================================
+   PHOTO HOVER
+========================================= */
+
+.image-card:hover .image-card-photo {
+    transform:
+        rotate(-3deg)
+        translateY(-5px);
+
+    box-shadow:
+        12px 25px 30px rgba(0, 0, 0, 0.22);
+}
+
+/* =========================================
+   CARD BODY
+========================================= */
+
+.image-card-body {
+    padding: 3rem 0 0.5rem;
+    text-align: right;
+    direction: rtl;
+
+    transform: translateX(20px);
+}
+
+
+/* =========================================
+   TITLE
+========================================= */
+
+.image-card-body h3 {
+    width: 100%;
+    box-sizing: border-box;
+
+    margin: 0 0 0.5rem;
+
+    color: var(--text);
+
+    font-size: var(--fs-sm);
+    font-weight: 700;
+
+    line-height: 1.7;
+
+    text-align: right;
+    direction: rtl;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+
+/* =========================================
+   DESCRIPTION / META
+========================================= */
+
+.image-card-body p {
+    width: 100%;
+
+    margin: 0;
+
+    color: var(--text-light);
+
+    font-size: var(--fs-xs);
+
+    text-align: right;
+    direction: rtl;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .image-card {
+        border-radius: 10px;
+    }
+
+
+    .image-card-body {
+        padding: 2rem 0rem 0rem;
+    }
+
+
+    .image-card-body h3 {
+        font-size: 0.82rem;
+    }
+
+
+    .image-card-body p {
+        font-size: 0.7rem;
+    }
+
+    .image-card-photo {
+        padding: 6px;
+    }
+
+
+    .image-card-photo::before {
+        width: 20px;
+        height: 20px;
+
+        top: -5px;
+        right: -5px;
+    }
+}
+
+/* #endregion */
+
+/* #region CARDS SIZES */
+
+.content-slider > .content-card {
+    flex: 0 0 224px;
+}
+
+/* AUDIO */
+.content-slider > .content-card.audio-card {
+    flex: 0 0 152px;
+}
+
+.content-slider > .playlist-card {
+    flex: 0 0 152px;
+}
+
+.content-slider > .topic-card {
+    flex: 0 0 128px;
+}
+
+.content-slider > .speaker-card {
+    flex: 0 0 144px;
+}
+
+.content-slider > .image-card {
+    flex: 0 0 140px;
+    margin-right: 65px;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .content-slider > .content-card {
+        flex: 0 0 190px;
+    }
+
+    .content-slider > .content-card.audio-card {
+        flex: 0 0 120px;
+    }
+
+    .content-slider > .playlist-card {
+        flex: 0 0 120px;
+    }
+
+    .content-slider > .topic-card {
+        flex: 0 0 110px;
+    }
+    .topic-card h3 {
+        padding: 16px 14px 14px;
+        font-size: 13px;
+    }
+
+    .content-slider > .speaker-card {
+        flex: 0 0 110px;
+    }
+
+    .content-slider > .image-card {
+        flex: 0 0 90px;
+    }
+}
+/* #endregion */
+
+/* #region CARD ACTIONS */
+
+.card-title-row {
+    position: relative;
+
+    display: flex;
+    align-items: flex-start;
+
+    width: 100%;
+}
+
+
+/* عنوان */
+
+.card-title-row h3 {
+    flex: 1;
+    min-width: 0;
+
+    margin: 0;
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   CARD ACTIONS
+========================================================= */
+
+.card-title-row .card-actions {
+    position: relative;
+
+    flex: 0 0 28px;
+
+    width: 28px;
+    height: 28px;
+
+    margin-right: 6px;
+
+    z-index: 20;
+}
+
+
+/* سه نقطه */
+
+.card-title-row .card-actions-button {
+    width: 28px;
+    height: 28px;
+
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    color: var(--text);
+}
+
+/* منوی گزینه‌ها */
+
+.card-actions-menu {
+    position: absolute;
+
+    bottom: 32px;
+    left: 0;
+
+    min-width: 80px;
+
+    padding: 6px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.12);
+
+    display: none;
+}
+
+
+/* فقط با کلیک باز شود */
+
+.card-actions.show .card-actions-menu {
+    display: block;
+}
+
+
+/* گزینه‌ها */
+
+.card-actions-menu button {
+    width: 100%;
+
+    border: none;
+    background: transparent;
+
+    padding: 9px 10px;
+
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: var(--fs-sm);
+
+    cursor: pointer;
+
+    border-radius: 6px;
+
+    text-align: right;
+}
+
+
+.card-actions-menu button:hover {
+    background: var(--primary-soft);
+}
+
+
+.card-actions-menu i {
+    width: 18px;
+    text-align: center;
+    color: var(--primary-dark);
+}
+/* =========================================================
+   CARD ACTIONS - MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .card-title-row .card-actions {
+        flex: 0 0 22px;
+        width: 22px;
+        height: 22px;
+        margin-right: 3px;
+    }
+
+
+    /* سه نقطه */
+    .card-title-row .card-actions-button {
+        width: 22px;
+        height: 22px;
+
+        font-size: 13px;
+    }
+
+
+    /* منوی گزینه‌ها */
+    .card-actions-menu {
+        bottom: 25px;
+        left: 0;
+
+        min-width: 72px;
+
+        padding: 4px;
+
+        border-radius: 8px;
+    }
+
+
+    /* گزینه‌ها */
+    .card-actions-menu button {
+        padding: 7px 8px;
+
+        gap: 6px;
+
+        font-size: 0.75rem;
+
+        border-radius: 5px;
+    }
+
+
+    .card-actions-menu i {
+        width: 15px;
+        font-size: 12px;
+    }
+}
+/* #endregion */
+
+/* جلوگیری از Drag شدن خود کارت‌ها */
+.content-slider > .playlist-card,
+.content-slider > .book-card,
+.content-slider > .image-card,
+.content-slider > .topic-card,
+.content-slider > .speaker-card {
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* #region TOPIC CARD */
+
+.topic-card {
+    position: relative;
+    flex: 0 0 180px;
+    margin-bottom: 15px;
+
+    display: flex;
+    align-items: flex-end;
+
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+
+    /* background:
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(186, 153, 78, 0.28) 0,
+            rgba(186, 153, 78, 0.08) 22%,
+            transparent 48%
+        ),
+        linear-gradient(
+            135deg,
+            #faf8f2 0%,
+            #f3eddd 100%
+        ); */
+    background-image: url("../pics/botton3.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border: 1px solid rgba(186, 153, 78, 0.22);
+    border-radius: 40px;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.04);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+
+/* =========================================================
+   ABSTRACT DECORATIONS
+========================================================= */
+/* 
+.topic-card::before {
+    content: "";
+    position: absolute;
+
+    width: 110px;
+    height: 110px;
+
+    top: -45px;
+    right: -25px;
+
+    border: 1px solid rgba(186, 153, 78, 0.28);
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 18px rgba(186, 153, 78, 0.05),
+        0 0 0 36px rgba(186, 153, 78, 0.035);
+
+    transition:
+        transform 0.4s ease,
+        opacity 0.3s ease;
+}
+
+
+.topic-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 150px;
+    height: 1px;
+
+    top: 42px;
+    left: -25px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(186, 153, 78, 0.35),
+        transparent
+    );
+
+    transform: rotate(-28deg);
+
+    transition:
+        transform 0.4s ease;
+} */
+
+
+/* =========================================================
+   TOPIC TITLE
+========================================================= */
+
+.topic-card h3 {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 18px 18px 16px;
+    /* padding: 0; */
+
+    color: var(--text);
+
+    font-size: var(--fs-lg);
+    font-weight: 700;
+
+    /* text-align: right; */
+    text-align: center;
+
+    background: linear-gradient(
+        to top,
+        rgba(255, 255, 255, 0.94),
+        rgba(255, 255, 255, 0)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.topic-card:hover {
+    transform: translateY(-5px);
+
+    border-color: rgba(186, 153, 78, 0.45);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+.topic-card:hover::before {
+    transform: scale(1.12) rotate(8deg);
+}
+
+
+.topic-card:hover::after {
+    transform: rotate(-28deg) translateX(20px);
+}
+
+
+/* =========================================================
+   ACTIVE / FOCUS
+========================================================= */
+
+.topic-card:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+}
+
+/* #endregion */
+/* #region SEAKERS CARD */
+
+.speaker-card {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 0.8rem;
+
+    text-decoration: none;
+
+    color: var(--text);
+
+    transition: transform 0.25s ease;
+}
+
+
+/* =========================================================
+   SPEAKER IMAGE
+========================================================= */
+
+.speaker-image {
+    width: 130px;
+    height: 130px;
+
+    max-width: 100%;
+
+    overflow: hidden;
+
+    border-radius: 50%;
+
+    background: var(--border);
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.08);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.speaker-image img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition: transform 0.3s ease;
+}
+
+
+/* =========================================================
+   SPEAKER NAME
+========================================================= */
+
+.speaker-card h3 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: var(--fs-sm);
+
+    font-weight: 700;
+
+    line-height: 1.6;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.speaker-card:hover {
+    transform: translateY(-4px);
+}
+
+
+.speaker-card:hover .speaker-image {
+    transform: scale(1.04);
+
+    box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.13);
+}
+
+
+.speaker-card:hover .speaker-image img {
+    transform: scale(1.05);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+
+    .speaker-card {
+        gap: 0.6rem;
+    }
+
+
+    .speaker-image {
+        width: 90px;
+        height: 90px;
+    }
+
+
+    .speaker-card h3 {
+        font-size: 0.75rem;
+    }
+}
+/* #endregion */

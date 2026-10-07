@@ -1,0 +1,284 @@
+/* =========================================================
+   IMAGE PAGE
+========================================================= */
+
+.image-hero {
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 3rem 2.5rem 3rem;
+
+    display: grid;
+
+    grid-template-columns: 420px minmax(0, 1fr);
+
+    gap: 4rem;
+
+    align-items: center;
+
+    /* border-bottom: 1px solid var(--border); */
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.image-wrapper {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.image-main {
+    display: block;
+
+    width: 100%;
+    max-width: 420px;
+
+    max-height: 70vh;
+
+    height: auto;
+
+    object-fit: contain;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 18px 40px rgba(0, 0, 0, .12);
+}
+
+
+/* =========================================================
+   IMAGE INFO
+========================================================= */
+
+.image-info {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.image-title {
+    margin: 0 0 2rem;
+
+    color: var(--text);
+
+    font-size: 2rem;
+
+    font-weight: 700;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.image-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 1.5rem;
+
+    padding-bottom: 18px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.image-action {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: .4rem;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: var(--text-light);
+
+    font-family: var(--font-family);
+
+    font-size: .9rem;
+
+    cursor: pointer;
+
+    transition:
+        color .2s ease;
+}
+
+
+.image-action:hover {
+    color: var(--primary-dark);
+}
+
+
+.image-action i {
+    font-size: .9rem;
+}
+
+
+.image-action.is-saved {
+    color: var(--primary-dark);
+}
+
+
+/* =========================================================
+   TAGS
+========================================================= */
+
+.image-tags-wrapper {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    margin-top: 18px;
+}
+
+
+.image-tags-title {
+    color: var(--text);
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    flex-shrink: 0;
+}
+
+
+.image-tags {
+    display: flex;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+}
+
+
+.image-tag {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    background: var(--primary-soft);
+
+    color: var(--primary-dark);
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .image-hero {
+        grid-template-columns: 1fr;
+
+        gap: 2rem;
+
+        padding: 1.5rem 1rem 3rem;
+
+        border-radius: 16px;
+    }
+
+
+    .image-main {
+        width: 100%;
+
+        max-width: 320px;
+
+        max-height: 60vh;
+    }
+
+
+    .image-info {
+        text-align: center;
+    }
+
+
+    .image-title {
+        margin-bottom: 1.5rem;
+
+        font-size: 1.4rem;
+    }
+
+
+    .image-actions {
+        justify-content: center;
+
+        gap: .8rem;
+    }
+
+
+    .image-action {
+        gap: .3rem;
+
+        font-size: .75rem;
+    }
+
+
+    .image-action i {
+        font-size: .75rem;
+    }
+
+
+    .image-tags-wrapper {
+        justify-content: center;
+
+        align-items: center;
+
+        margin-top: 1.5rem;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .image-hero {
+        padding: 1.25rem 1rem 3rem;
+    }
+
+
+    .image-main {
+        max-width: 280px;
+    }
+
+
+    .image-title {
+        font-size: 1.25rem;
+    }
+
+}
