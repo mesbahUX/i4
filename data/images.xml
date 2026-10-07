@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='utf-8'?>
+<images>
+
+    <image id="1">
+        <title>ولادت پیامبر اکرم (ص)</title>
+        <image>pics/image/image1.jpg</image>
+        <type>image</type>
+        <tags>
+            <tag>ولادت پیامبر اکرم</tag>
+            <tag>پروفایل</tag>
+        </tags>
+    </image>
+
+    <image id="2">
+        <title>ولادت حضرت زهرا (س)</title>
+        <image>pics/image/image2.jpg</image>
+        <type>image</type>
+        <tags>
+            <tag>ولادت حضرت زهرا</tag>
+            <tag>روز مادر</tag>
+            <tag>پروفایل</tag>
+        </tags>
+    </image>
+
+    <image id="3">
+        <title>عاشورا و شهادت امام حسین (ع)</title>
+        <image>pics/image/image3.jpg</image>
+        <type>image</type>
+        <tags>
+            <tag>امام حسین</tag>
+            <tag>شهادت امام حسین</tag>
+            <tag>عاشورا</tag>
+            <tag>محرم</tag>
+            <tag>پروفایل</tag>
+        </tags>
+    </image>
+
+    <image id="4">
+        <title>نیمه شعبان و انتظار ظهور</title>
+        <image>pics/image/image4.jpg</image>
+        <type>image</type>
+        <tags>
+            <tag>نیمه شعبان</tag>
+            <tag>امام زمان</tag>
+            <tag>عصر غیبت</tag>
+            <tag>پوستر</tag>
+        </tags>
+    </image>
+
+    <image id="5">
+        <title>ولادت امام باقر (ع)</title>
+        <image>pics/image/image5.jpg</image>
+        <type>image</type>
+        <tags>
+            <tag>ولادت امام باقر</tag>
+            <tag>پروفایل</tag>
+        </tags>
+    </image>
+
+    <image id="6">
+        <title>ولادت امام زمان (عج) و نیمه شعبان</title>
+        <image>pics/image/image6.jpg</image>
+        <type>image</type>
+        <tags>
+            <tag>ولادت امام زمان</tag>
+            <tag>نیمه شعبان</tag>
+            <tag>انتظار</tag>
+            <tag>ولاپیپر موبایل</tag>
+        </tags>
+    </image>
+
+    <image id="7">
+        <title>انتظار ظهور امام زمان (عج)</title>
+        <image>pics/image/image7.jpg</image>
+        <type>image</type>
+        <tags>
+            <tag>امام زمان</tag>
+            <tag>عصر غیبت</tag>
+            <tag>انتظار</tag>
+            <tag>پروفایل</tag>
+        </tags>
+    </image>
+
+    <image id="8">
+        <title>غدیر و ولایت امام علی (ع)</title>
+        <image>pics/image/image8.jpg</image>
+        <type>image</type>
+        <tags>
+            <tag>امام علی</tag>
+            <tag>غدیر</tag>
+            <tag>ولایت</tag>
+            <tag>شیعه</tag>
+            <tag>والپیپر دسکتاپ</tag>
+        </tags>
+    </image>
+
+</images>
