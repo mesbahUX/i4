@@ -1183,50 +1183,48 @@ const saveButton =
 
 if (saveButton) {
 
-const storageKey =
-    type === "playlist"
-        ? "mesbah_saved_playlists"
-        : type === "book"
-            ? "mesbah_saved_books"
-            : "mesbah_saved_contents";
+    const storageKey =
+        type === "playlist"
+            ? "mesbah_saved_playlists"
+            : type === "book"
+                ? "mesbah_saved_books"
+                : type === "image"
+                    ? "mesbah_saved_images"
+                    : "mesbah_saved_contents";
 
-    const savedItems =
-        JSON.parse(
+    let savedItems = [];
+
+    try {
+        savedItems = JSON.parse(
             localStorage.getItem(storageKey) || "[]"
         );
 
-
-    const saved =
-        savedItems.includes(id);
-
-
-    const icon =
-        saveButton.querySelector("i");
-
-
-    if (saved) {
-
-        icon.classList.remove(
-            "fa-regular"
-        );
-
-        icon.classList.add(
-            "fa-solid"
-        );
-
-    } else {
-
-        icon.classList.remove(
-            "fa-solid"
-        );
-
-        icon.classList.add(
-            "fa-regular"
-        );
-
+        if (!Array.isArray(savedItems)) {
+            savedItems = [];
+        }
+    } catch {
+        savedItems = [];
     }
 
+    const isSaved = savedItems.some(item => {
+        const savedId =
+            typeof item === "object" && item !== null
+                ? (item.id ?? item.imageId ?? item.bookId ?? item.playlistId ?? item.contentId)
+                : item;
+
+        return String(savedId) === String(id);
+    });
+
+    const icon = saveButton.querySelector("i");
+
+    if (icon) {
+        icon.classList.toggle("fa-solid", isSaved);
+        icon.classList.toggle("fa-regular", !isSaved);
+    }
+
+    saveButton.classList.toggle("saved", isSaved);
 }
+
         }
     );
 
@@ -1884,6 +1882,67 @@ document.addEventListener("click", async event => {
 
     if (!imageId) return;
 
+    /* -------------------------
+    SAVE / UNSAVE
+    ------------------------- */
+
+    if (saveButton) {
+
+        let saved = [];
+
+        try {
+            saved = JSON.parse(
+                localStorage.getItem("mesbah_saved_images") || "[]"
+            );
+
+            if (!Array.isArray(saved)) {
+                saved = [];
+            }
+
+        } catch {
+            saved = [];
+        }
+
+        const id = String(imageId);
+
+        const isSaved = saved.some(
+            item => String(item) === id
+        );
+
+        const icon = saveButton.querySelector("i");
+
+        if (isSaved) {
+
+            saved = saved.filter(
+                item => String(item) !== id
+            );
+
+            saveButton.classList.remove("saved");
+
+            if (icon) {
+                icon.className = "fa-regular fa-bookmark";
+            }
+
+        } else {
+
+            saved.push(id);
+
+            saveButton.classList.add("saved");
+
+            if (icon) {
+                icon.className = "fa-solid fa-bookmark";
+            }
+
+        }
+
+        localStorage.setItem(
+            "mesbah_saved_images",
+            JSON.stringify(saved)
+        );
+
+        return;
+    }
+
     /* دریافت اطلاعات تصویر از XML */
 
     async function getImageData() {
@@ -2000,96 +2059,48 @@ document.addEventListener("click", async event => {
             return;
         }
 
-        /* -------------------------
-           SAVE / UNSAVE
-        ------------------------- */
 
-        if (saveButton) {
 
-            let savedItems = [];
-
-            try {
-
-                savedItems = JSON.parse(
-                    localStorage.getItem("mesbah_saved_images") || "[]"
-                );
-
-                if (!Array.isArray(savedItems)) {
-                    savedItems = [];
-                }
-
-            } catch {
-
-                savedItems = [];
-
-            }
-
-            const id = String(imageId);
-
-            const isSaved = savedItems.some(
-                item => String(item) === id
-            );
-
-            const icon = saveButton.querySelector("i");
-
-            if (isSaved) {
-
-                savedItems = savedItems.filter(
-                    item => String(item) !== id
-                );
-
-                saveButton.classList.remove("saved");
-
-                if (icon) {
-                    icon.className = "fa-regular fa-bookmark";
-                }
-
-            } else {
-
-                savedItems.push(id);
-
-                saveButton.classList.add("saved");
-
-                if (icon) {
-                    icon.className = "fa-solid fa-bookmark";
-                }
-
-            }
-
-            localStorage.setItem(
-                "mesbah_saved_images",
-                JSON.stringify(savedItems)
-            );
-
-            return;
-        }
 
 
         /* -------------------------
            DOWNLOAD
         ------------------------- */
 
+
         if (downloadButton) {
 
-            const link = document.createElement("a");
+            const response = await fetch(imageData.image);
 
-            link.href = pdf;
+            if (!response.ok) {
+                throw new Error("دریافت فایل تصویر ناموفق بود.");
+            }
+
+            const blob = await response.blob();
+
+            const extension =
+                blob.type.split("/")[1]?.replace("jpeg", "jpg") || "jpg";
 
             const fileName =
-                (book.querySelector("title")
-                    ?.textContent.trim() || "کتاب")
-                    .replace(/[<>:"/\\|?*\x00-\x1F]/g, "-")
-                    .trim();
+                createImageFileName(imageData.title)
+                    .replace(/\.[^.]+$/, "") +
+                "." + extension;
 
-            link.download = `${fileName}.pdf`;
+            const blobUrl = URL.createObjectURL(blob);
+
+            const link = document.createElement("a");
+            link.href = blobUrl;
+            link.download = fileName;
 
             document.body.appendChild(link);
-
             link.click();
-
             link.remove();
 
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
+
+            return;
         }
+
 
     } catch (error) {
 

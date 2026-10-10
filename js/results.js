@@ -706,8 +706,8 @@ if (
                         item.getAttribute("id") === id
                 )
             )
-            .filter(Boolean);
-
+            .filter(Boolean)
+            .reverse();
 
     /* =========================================
        PLAYLIST IDS
@@ -751,8 +751,8 @@ playlists =
                     playlist.getAttribute("id") === id
             )
         )
-        .filter(Boolean);
-
+        .filter(Boolean)
+        .reverse();
 
 /* =========================================
    BOOK IDS
@@ -810,7 +810,8 @@ books =
                     book.getAttribute("id") === id
             )
         )
-        .filter(Boolean);
+        .filter(Boolean)
+        .reverse();
 /* =========================================
    IMAGE IDS
    فقط در saved / history
@@ -867,7 +868,8 @@ images =
                     image.getAttribute("id") === id
             )
         )
-        .filter(Boolean);
+        .filter(Boolean)
+        .reverse();
 }
         /* =========================================
            فقط برای تعیین پنجره باز/بسته
@@ -1437,152 +1439,174 @@ function renderSectionItems(
 
 /* =========================================================
    SAVED PAGE
-   حذف فوری محتوا و مجموعه بعد از برداشتن ذخیره
+   حذف فوری کارت پس از لغو ذخیره
 ========================================================= */
 
 document.addEventListener(
     "click",
     event => {
 
-        /* فقط صفحه ذخیره‌ها */
         const params =
             new URLSearchParams(
                 window.location.search
             );
 
-        if (
-            params.get("type") !== "saved"
-        ) {
+        if (params.get("type") !== "saved") {
             return;
         }
 
-
-        /* =====================================================
-           دکمه ذخیره محتوا یا مجموعه
-        ===================================================== */
-
         const saveButton =
             event.target.closest(
-                ".save-action, .playlist-card-save-button"
+                ".save-action, " +
+                ".playlist-card-save-button, " +
+                ".book-card-save-button, " +
+                ".image-card-save-button"
             );
-
 
         if (!saveButton) {
             return;
         }
 
-
-        /* =====================================================
-           کارت
-        ===================================================== */
-
         const card =
             saveButton.closest(
-                ".content-card, .playlist-card"
+                ".content-card, " +
+                ".playlist-card, " +
+                ".book-card, " +
+                ".image-card"
             );
-
 
         if (!card) {
             return;
         }
 
+        let storageKey = "";
+        let itemId = "";
 
-        /* =====================================================
-           ID
-        ===================================================== */
+        if (saveButton.matches(".save-action")) {
 
-        const contentId =
-            saveButton.dataset.contentId;
+            storageKey = "mesbah_saved_contents";
+            itemId = saveButton.dataset.contentId;
 
-        const playlistId =
-            saveButton.dataset.playlistId;
+        } else if (
+            saveButton.matches(".playlist-card-save-button")
+        ) {
 
+            storageKey = "mesbah_saved_playlists";
+            itemId = saveButton.dataset.playlistId;
 
-        /* =====================================================
-           بعد از اجرای save
-        ===================================================== */
+        } else if (
+            saveButton.matches(".book-card-save-button")
+        ) {
 
-        setTimeout(() => {
+            storageKey = "mesbah_saved_books";
+            itemId = saveButton.dataset.bookId;
 
+        } else if (
+            saveButton.matches(".image-card-save-button")
+        ) {
 
-            /* =================================================
-               CONTENT
-            ================================================= */
+            storageKey = "mesbah_saved_images";
+            itemId = saveButton.dataset.imageId;
 
-            if (contentId) {
+        }
 
-                let savedContents = [];
+        if (!storageKey || !itemId) {
+            return;
+        }
+
+        /*
+         * وضعیت ذخیره قبل از کلیک
+         * اگر ذخیره بوده، کلیک باید آن را لغو کند.
+         */
+
+        let savedItems = [];
+
+        try {
+
+            savedItems = JSON.parse(
+                localStorage.getItem(storageKey) || "[]"
+            );
+
+            if (!Array.isArray(savedItems)) {
+                savedItems = [];
+            }
+
+        } catch {
+
+            savedItems = [];
+
+        }
+
+        const wasSaved =
+            savedItems.some(item => {
+
+                const id =
+                    typeof item === "object" && item !== null
+                        ? (
+                            item.id ??
+                            item.imageId ??
+                            item.bookId ??
+                            item.playlistId ??
+                            item.contentId
+                        )
+                        : item;
+
+                return String(id) === String(itemId);
+
+            });
+
+        /*
+         * فقط در صورت لغو ذخیره کارت حذف شود.
+         * بررسی در فریم بعدی، پس از اجرای تابع ذخیره.
+         */
+
+        if (wasSaved) {
+
+            requestAnimationFrame(() => {
+
+                let currentItems = [];
 
                 try {
 
-                    savedContents =
-                        JSON.parse(
-                            localStorage.getItem(
-                                "mesbah_saved_contents"
-                            ) || "[]"
-                        )
-                        .map(id => String(id));
+                    currentItems = JSON.parse(
+                        localStorage.getItem(storageKey) || "[]"
+                    );
+
+                    if (!Array.isArray(currentItems)) {
+                        currentItems = [];
+                    }
 
                 } catch {
 
-                    savedContents = [];
+                    currentItems = [];
 
                 }
 
+                const stillSaved =
+                    currentItems.some(item => {
 
-                /* اگر دیگر ذخیره نیست */
-                if (
-                    !savedContents.includes(
-                        String(contentId)
-                    )
-                ) {
+                        const id =
+                            typeof item === "object" && item !== null
+                                ? (
+                                    item.id ??
+                                    item.imageId ??
+                                    item.bookId ??
+                                    item.playlistId ??
+                                    item.contentId
+                                )
+                                : item;
 
+                        return String(id) === String(itemId);
+
+                    });
+
+                if (!stillSaved) {
                     removeSavedCard(card);
-
                 }
 
-            }
+            });
 
-
-            /* =================================================
-               PLAYLIST
-            ================================================= */
-
-            if (playlistId) {
-
-                let savedPlaylists = [];
-
-                try {
-
-                    savedPlaylists =
-                        JSON.parse(
-                            localStorage.getItem(
-                                "mesbah_saved_playlists"
-                            ) || "[]"
-                        )
-                        .map(id => String(id));
-
-                } catch {
-
-                    savedPlaylists = [];
-
-                }
-
-
-                /* اگر دیگر ذخیره نیست */
-                if (
-                    !savedPlaylists.includes(
-                        String(playlistId)
-                    )
-                ) {
-
-                    removeSavedCard(card);
-
-                }
-
-            }
-
-        }, 0);
+        }
 
     },
     true
@@ -1595,45 +1619,29 @@ document.addEventListener(
 
 function removeSavedCard(card) {
 
-    if (!card) {
-        return;
-    }
-
+    if (!card) return;
 
     card.remove();
 
-
-    /* =====================================================
-       اگر هیچ کارتی باقی نمانده
-    ===================================================== */
-
     const container =
-        document.querySelector(
-            ".results-grid"
-        );
+        document.querySelector(".results-grid");
 
-
-    if (!container) {
-        return;
-    }
-
+    if (!container) return;
 
     const remainingCards =
         container.querySelectorAll(
-            ".content-card, .playlist-card"
+            ".content-card, " +
+            ".playlist-card, " +
+            ".book-card, " +
+            ".image-card"
         );
-
 
     if (!remainingCards.length) {
 
         container.innerHTML = `
-
             <div class="results-empty">
-
                 محتوایی برای نمایش پیدا نشد.
-
             </div>
-
         `;
 
     }
