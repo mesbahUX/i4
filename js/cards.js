@@ -625,7 +625,7 @@ function createImageCard(item) {
     titleRow.appendChild(
         createCardActions(
             id,
-            "content"
+            "image"
         )
     );
 
@@ -1024,7 +1024,36 @@ wrapper.innerHTML = `
 
     <div class="card-actions-menu">
 ${
-    type === "playlist"
+    type === "image"
+        ? `
+            <button
+                class="image-card-share-button"
+                data-image-id="${id}"
+                type="button"
+            >
+                <i class="fa-solid fa-share-nodes"></i>
+                <span>اشتراک‌گذاری</span>
+            </button>
+
+            <button
+                class="image-card-save-button"
+                data-image-id="${id}"
+                type="button"
+            >
+                <i class="fa-regular fa-bookmark"></i>
+                <span>ذخیره</span>
+            </button>
+
+            <button
+                class="image-card-download-button"
+                data-image-id="${id}"
+                type="button"
+            >
+                <i class="fa-solid fa-download"></i>
+                <span>دانلود</span>
+            </button>
+        `
+    : type === "playlist"
         ? `
             <button
                 class="playlist-card-share-button"
@@ -1045,26 +1074,35 @@ ${
             </button>
         `
 
-: type === "book"
-    ? `
-        <button
-            class="book-card-share-button"
-            data-book-id="${id}"
-            type="button"
-        >
-            <i class="fa-solid fa-share-nodes"></i>
-            <span>اشتراک‌گذاری</span>
-        </button>
+    : type === "book"
+        ? `
+            <button
+                class="book-card-share-button"
+                data-book-id="${id}"
+                type="button"
+            >
+                <i class="fa-solid fa-share-nodes"></i>
+                <span>اشتراک‌گذاری</span>
+            </button>
 
-        <button
-            class="book-card-save-button"
-            data-book-id="${id}"
-            type="button"
-        >
-            <i class="fa-regular fa-bookmark"></i>
-            <span>ذخیره</span>
-        </button>
-    `
+            <button
+                class="book-card-save-button"
+                data-book-id="${id}"
+                type="button"
+            >
+                <i class="fa-regular fa-bookmark"></i>
+                <span>ذخیره</span>
+            </button>
+
+            <button
+                class="book-card-download-button"
+                data-book-id="${id}"
+                type="button"
+            >
+                <i class="fa-solid fa-download"></i>
+                <span>دانلود</span>
+            </button>
+        `
 
             : `
                 <button
@@ -1141,8 +1179,7 @@ ${
             );
 const saveButton =
     wrapper.querySelector(
-        ".save-action, .playlist-card-save-button, .book-card-save-button"
-    );
+".save-action, .playlist-card-save-button, .book-card-save-button, .image-card-save-button"    );
 
 if (saveButton) {
 
@@ -1339,9 +1376,9 @@ document.addEventListener(
                     .writeText(url)
                     .then(() => {
 
-                        alert(
-                            "لینک مجموعه کپی شد."
-                        );
+                        // alert(
+                        //     "لینک مجموعه کپی شد."
+                        // );
 
                     });
 
@@ -1465,128 +1502,44 @@ document.addEventListener(
 
 document.addEventListener(
     "click",
-    event => {
-
-        /* =====================================================
-           SHARE
-        ===================================================== */
+    async event => {
 
         const shareButton =
             event.target.closest(
                 ".book-card-share-button"
             );
 
-
-        if (shareButton) {
-
-            event.preventDefault();
-            event.stopPropagation();
-
-
-            const bookId =
-                shareButton.dataset.bookId;
-
-
-            if (!bookId) return;
-
-
-            const card =
-                shareButton.closest(
-                    ".book-card"
-                );
-
-
-            const title =
-                card
-                    ?.querySelector(
-                        ".book-card__title"
-                    )
-                    ?.textContent
-                    .trim()
-                || "کتاب";
-
-
-            const url =
-                `${window.location.origin}` +
-                `${window.location.pathname
-                    .replace(
-                        /[^/]+$/,
-                        "book.html"
-                    )}` +
-                `?id=${encodeURIComponent(bookId)}`;
-
-
-            if (navigator.share) {
-
-                navigator.share({
-
-                    title: title,
-
-                    text:
-                        `«${title}»\n\nاز سامانه مصباح`,
-
-                    url: url
-
-                }).catch(error => {
-
-                    if (
-                        error.name !==
-                        "AbortError"
-                    ) {
-
-                        console.error(
-                            "BOOK CARD SHARE ERROR:",
-                            error
-                        );
-
-                    }
-
-                });
-
-            }
-
-            else {
-
-                navigator.clipboard
-                    .writeText(url)
-                    .then(() => {
-
-                        alert(
-                            "لینک کتاب کپی شد."
-                        );
-
-                    });
-
-            }
-
-
-            return;
-
-        }
-
-
-        /* =====================================================
-           SAVE
-        ===================================================== */
-
         const saveButton =
             event.target.closest(
                 ".book-card-save-button"
             );
 
+        const downloadButton =
+            event.target.closest(
+                ".book-card-download-button"
+            );
+
+        const actionButton =
+            shareButton ||
+            saveButton ||
+            downloadButton;
+
+        if (!actionButton) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const bookId =
+            actionButton.dataset.bookId;
+
+        if (!bookId) return;
+
+
+        /* =====================================================
+           SAVE / UNSAVE
+        ===================================================== */
 
         if (saveButton) {
-
-            event.preventDefault();
-            event.stopPropagation();
-
-
-            const bookId =
-                saveButton.dataset.bookId;
-
-
-            if (!bookId) return;
-
 
             let saved = [];
 
@@ -1599,80 +1552,575 @@ document.addEventListener(
                         )
                     ) || [];
 
-            }
+                if (!Array.isArray(saved)) {
+                    saved = [];
+                }
 
-            catch {
+            } catch {
 
                 saved = [];
 
             }
 
+            const id = String(bookId);
 
-            const id =
-                String(bookId);
-
+            const isSaved =
+                saved.some(
+                    item => String(item) === id
+                );
 
             const icon =
                 saveButton.querySelector("i");
 
-
-            if (
-                saved.some(
-                    item =>
-                        String(item) === id
-                )
-            ) {
+            if (isSaved) {
 
                 saved =
                     saved.filter(
-                        item =>
-                            String(item) !== id
+                        item => String(item) !== id
                     );
 
-
-                saveButton.classList.remove(
-                    "saved"
-                );
-
+                saveButton.classList.remove("saved");
 
                 if (icon) {
-
                     icon.className =
                         "fa-regular fa-bookmark";
-
                 }
 
-            }
-
-            else {
+            } else {
 
                 saved.push(id);
 
-
-                saveButton.classList.add(
-                    "saved"
-                );
-
+                saveButton.classList.add("saved");
 
                 if (icon) {
-
                     icon.className =
                         "fa-solid fa-bookmark";
-
                 }
 
             }
-
 
             localStorage.setItem(
                 "mesbah_saved_books",
                 JSON.stringify(saved)
             );
 
-
             return;
+        }
+
+
+        /* =====================================================
+           LOAD BOOK DATA
+        ===================================================== */
+
+        try {
+
+            const response =
+                await fetch("data/books.xml");
+
+            if (!response.ok) {
+                throw new Error(
+                    "دریافت اطلاعات کتاب ناموفق بود."
+                );
+            }
+
+            const text =
+                await response.text();
+
+            const xml =
+                new DOMParser().parseFromString(
+                    text,
+                    "application/xml"
+                );
+
+            const book =
+                Array.from(
+                    xml.querySelectorAll("book")
+                ).find(
+                    item =>
+                        item.getAttribute("id") ===
+                        String(bookId)
+                );
+
+            if (!book) {
+                throw new Error("کتاب پیدا نشد.");
+            }
+
+            const getValue = tag =>
+                book.querySelector(tag)
+                    ?.textContent.trim() || "";
+
+            const title =
+                getValue("title") || "کتاب";
+
+            const author =
+                getValue("author");
+
+            const publisher =
+                getValue("publisher");
+
+            const year =
+                getValue("publishYear");
+
+            const pdf =
+                getValue("pdf");
+
+            const pageUrl = new URL(
+                "book.html",
+                window.location.href
+            );
+
+            pageUrl.searchParams.set(
+                "id",
+                bookId
+            );
+
+            const shareText = [
+                title,
+                author ? `نویسنده: ${author}` : "",
+                publisher ? `ناشر: ${publisher}` : "",
+                year ? `سال انتشار: ${year}` : "",
+                "از سامانه مصباح",
+                pageUrl.href
+            ].filter(Boolean).join("\n");
+
+
+            /* =====================================================
+               SHARE BOOK PDF + DETAILS
+            ===================================================== */
+
+            if (shareButton) {
+
+                if (!navigator.share) {
+
+                    await navigator.clipboard.writeText(
+                        shareText
+                    );
+
+                    alert(
+                        "اطلاعات کتاب و لینک آن کپی شد. مرورگر از اشتراک‌گذاری مستقیم پشتیبانی نمی‌کند."
+                    );
+
+                    return;
+                }
+
+                if (pdf && navigator.canShare) {
+
+                    try {
+
+                        const pdfUrl = new URL(
+                            pdf,
+                            window.location.href
+                        ).href;
+
+                        const pdfResponse =
+                            await fetch(pdfUrl);
+
+                        if (!pdfResponse.ok) {
+                            throw new Error(
+                                "دریافت فایل PDF ناموفق بود."
+                            );
+                        }
+
+                        const blob =
+                            await pdfResponse.blob();
+
+                        const fileName =
+                            title
+                                .replace(
+                                    /[<>:"/\\|?*\x00-\x1F]/g,
+                                    "-"
+                                )
+                                .trim() + ".pdf";
+
+                        const file = new File(
+                            [blob],
+                            fileName,
+                            {
+                                type: "application/pdf"
+                            }
+                        );
+
+                        if (
+                            navigator.canShare({
+                                files: [file]
+                            })
+                        ) {
+
+                            await navigator.share({
+                                title: title,
+                                text: shareText,
+                                files: [file]
+                            });
+
+                            return;
+                        }
+
+                    } catch (error) {
+
+                        if (error.name === "AbortError") {
+                            return;
+                        }
+
+                        console.error(
+                            "BOOK CARD PDF SHARE ERROR:",
+                            error
+                        );
+
+                    }
+                }
+
+                await navigator.share({
+                    title: title,
+                    text: shareText
+                });
+
+                return;
+            }
+
+
+            /* =====================================================
+               DOWNLOAD PDF WITH BOOK TITLE
+            ===================================================== */
+
+            if (downloadButton) {
+
+                if (!pdf) {
+                    throw new Error(
+                        "فایل PDF برای این کتاب ثبت نشده است."
+                    );
+                }
+
+                const pdfUrl = new URL(
+                    pdf,
+                    window.location.href
+                ).href;
+
+                const pdfResponse =
+                    await fetch(pdfUrl);
+
+                if (!pdfResponse.ok) {
+                    throw new Error(
+                        "دریافت فایل PDF ناموفق بود."
+                    );
+                }
+
+                const blob =
+                    await pdfResponse.blob();
+
+                const fileName =
+                    title
+                        .replace(
+                            /[<>:"/\\|?*\x00-\x1F]/g,
+                            "-"
+                        )
+                        .trim() + ".pdf";
+
+                const blobUrl =
+                    URL.createObjectURL(blob);
+
+                const link =
+                    document.createElement("a");
+
+                link.href = blobUrl;
+                link.download = fileName;
+
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+
+                setTimeout(
+                    () => URL.revokeObjectURL(blobUrl),
+                    1000
+                );
+
+                return;
+            }
+
+        } catch (error) {
+
+            if (error.name === "AbortError") return;
+
+            console.error(
+                "BOOK CARD ACTION ERROR:",
+                error
+            );
+
+            alert(
+                "اجرای عملیات کتاب ناموفق بود. فایل PDF و مسیر آن را بررسی کن."
+            );
 
         }
 
     }
 );
+
+/* =========================================================
+   IMAGE CARD ACTIONS
+========================================================= */
+
+document.addEventListener("click", async event => {
+
+    const shareButton = event.target.closest(
+        ".image-card-share-button"
+    );
+
+    const saveButton = event.target.closest(
+        ".image-card-save-button"
+    );
+
+    const downloadButton = event.target.closest(
+        ".image-card-download-button"
+    );
+
+    const actionButton =
+        shareButton || saveButton || downloadButton;
+
+    if (!actionButton) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const imageId = actionButton.dataset.imageId;
+
+    if (!imageId) return;
+
+    /* دریافت اطلاعات تصویر از XML */
+
+    async function getImageData() {
+
+        const response = await fetch("data/images.xml");
+
+        if (!response.ok) {
+            throw new Error("دریافت اطلاعات تصاویر ناموفق بود.");
+        }
+
+        const xmlText = await response.text();
+
+        const xml = new DOMParser().parseFromString(
+            xmlText,
+            "application/xml"
+        );
+
+        const items = xml.querySelectorAll("image");
+
+        for (const item of items) {
+
+            if (item.getAttribute("id") === imageId) {
+
+                return {
+                    id: imageId,
+                    title: getXMLValue(item, "title"),
+                    image: getXMLValue(item, "image"),
+                    type: "image"
+                };
+
+            }
+
+        }
+
+        throw new Error("تصویر موردنظر پیدا نشد.");
+    }
+
+    try {
+
+        const imageData = await getImageData();
+
+        /* -------------------------
+           SHARE
+        ------------------------- */
+
+        if (shareButton) {
+
+            const url = new URL(
+                "image.html",
+                window.location.href
+            );
+
+            url.searchParams.set("id", imageId);
+
+            if (navigator.share) {
+
+                try {
+
+                    const response = await fetch(imageData.image);
+
+                    if (!response.ok) {
+                        throw new Error("دریافت فایل تصویر ناموفق بود.");
+                    }
+
+                    const blob = await response.blob();
+
+                    const extension =
+                        blob.type.split("/")[1]?.replace("jpeg", "jpg") || "jpg";
+
+                    const file = new File(
+                        [blob],
+                        `${createImageFileName(imageData.title).replace(/\.[^.]+$/, "")}.${extension}`,
+                        {
+                            type: blob.type || "image/jpeg"
+                        }
+                    );
+
+                    const shareData = {
+                        title: imageData.title,
+                        text: `از سامانه مصباح\n${url.href}`,
+                        files: [file]
+                    };
+
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+
+                        await navigator.share(shareData);
+
+                    } else {
+
+                        await navigator.share({
+                            title: imageData.title,
+                            text: `${imageData.title}\nاز سامانه مصباح\n${url.href}`,
+                            url: url.href
+                        });
+
+                    }
+
+                } catch (error) {
+
+                    if (error.name !== "AbortError") {
+                        console.error("IMAGE SHARE ERROR:", error);
+                        alert("اشتراک‌گذاری تصویر انجام نشد.");
+                    }
+
+                }
+
+            } else {
+
+                await navigator.clipboard.writeText(url.href);
+                alert("لینک تصویر کپی شد. مرورگر از اشتراک‌گذاری مستقیم عکس پشتیبانی نمی‌کند.");
+
+            }
+
+            return;
+        }
+
+        /* -------------------------
+           SAVE / UNSAVE
+        ------------------------- */
+
+        if (saveButton) {
+
+            let savedItems = [];
+
+            try {
+
+                savedItems = JSON.parse(
+                    localStorage.getItem("mesbah_saved_images") || "[]"
+                );
+
+                if (!Array.isArray(savedItems)) {
+                    savedItems = [];
+                }
+
+            } catch {
+
+                savedItems = [];
+
+            }
+
+            const id = String(imageId);
+
+            const isSaved = savedItems.some(
+                item => String(item) === id
+            );
+
+            const icon = saveButton.querySelector("i");
+
+            if (isSaved) {
+
+                savedItems = savedItems.filter(
+                    item => String(item) !== id
+                );
+
+                saveButton.classList.remove("saved");
+
+                if (icon) {
+                    icon.className = "fa-regular fa-bookmark";
+                }
+
+            } else {
+
+                savedItems.push(id);
+
+                saveButton.classList.add("saved");
+
+                if (icon) {
+                    icon.className = "fa-solid fa-bookmark";
+                }
+
+            }
+
+            localStorage.setItem(
+                "mesbah_saved_images",
+                JSON.stringify(savedItems)
+            );
+
+            return;
+        }
+
+
+        /* -------------------------
+           DOWNLOAD
+        ------------------------- */
+
+        if (downloadButton) {
+
+            const link = document.createElement("a");
+
+            link.href = pdf;
+
+            const fileName =
+                (book.querySelector("title")
+                    ?.textContent.trim() || "کتاب")
+                    .replace(/[<>:"/\\|?*\x00-\x1F]/g, "-")
+                    .trim();
+
+            link.download = `${fileName}.pdf`;
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            link.remove();
+
+        }
+
+    } catch (error) {
+
+        if (error.name !== "AbortError") {
+
+            console.error(
+                "خطا در اکشن کارت تصویر:",
+                error
+            );
+
+            alert("اجرای عملیات تصویر ناموفق بود.");
+
+        }
+
+    }
+
+});
+
+
+/* =========================================================
+   IMAGE FILE NAME
+========================================================= */
+
+function createImageFileName(title) {
+
+    if (!title) {
+        return "image.jpg";
+    }
+
+    return title
+        .replace(/[\\/:*?"<>|]/g, "")
+        .trim() + ".jpg";
+
+}

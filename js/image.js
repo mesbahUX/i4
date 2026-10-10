@@ -221,92 +221,45 @@ function renderTags(item) {
 
 }
 
-
 /* =========================================================
    ACTIONS
 ========================================================= */
 
-function setupActions(
-    item,
-    imagePath,
-    title
-) {
+function setupActions(item, imagePath, title) {
 
-    const imageId =
-        item.getAttribute("id");
-
+    const imageId = String(item.getAttribute("id"));
 
     const downloadButton =
-        document.getElementById(
-            "download-btn"
-        );
-
+        document.getElementById("download-btn");
 
     const shareButton =
-        document.getElementById(
-            "share-btn"
-        );
-
+        document.getElementById("share-btn");
 
     const saveButton =
-        document.getElementById(
-            "save-btn"
-        );
+        document.getElementById("save-btn");
 
 
-    /* -----------------------------------------------------
-       DOWNLOAD
-    ----------------------------------------------------- */
+    /* DOWNLOAD */
 
-    downloadButton.addEventListener(
-        "click",
-        () => {
-
-            downloadImage(
-                imagePath,
-                title
-            );
-
-        }
-    );
+    downloadButton?.addEventListener("click", () => {
+        downloadImage(imagePath, title);
+    });
 
 
-    /* -----------------------------------------------------
-       SHARE
-    ----------------------------------------------------- */
+    /* SHARE */
 
-    shareButton.addEventListener(
-        "click",
-        () => {
-
-            shareImage(
-                imageId,
-                title
-            );
-
-        }
-    );
+    shareButton?.addEventListener("click", () => {
+        shareImage(imagePath, imageId, title);
+    });
 
 
-    /* -----------------------------------------------------
-       SAVE
-    ----------------------------------------------------- */
+    /* SAVE */
 
-    updateSaveButton(
-        imageId
-    );
+    updateSaveButton(imageId);
 
-
-    saveButton.addEventListener(
-        "click",
-        () => {
-
-            toggleSave(
-                item
-            );
-
-        }
-    );
+    saveButton?.addEventListener("click", () => {
+        toggleSave(imageId);
+    });
 
 }
 
@@ -315,26 +268,46 @@ function setupActions(
    DOWNLOAD IMAGE
 ========================================================= */
 
-function downloadImage(
-    imagePath,
-    title
-) {
+async function downloadImage(imagePath, title) {
 
-    const link =
-        document.createElement("a");
+    try {
 
+        const response = await fetch(imagePath);
 
-    link.href = imagePath;
+        if (!response.ok) {
+            throw new Error("دریافت فایل تصویر ناموفق بود.");
+        }
 
-    link.download =
-        createFileName(title);
+        const blob = await response.blob();
 
+        const extension =
+            blob.type.split("/")[1]?.replace("jpeg", "jpg") || "jpg";
 
-    document.body.appendChild(link);
+        const fileName =
+            `${createFileName(title).replace(/\.[^.]+$/, "")}.${extension}`;
 
-    link.click();
+        const objectURL = URL.createObjectURL(blob);
 
-    link.remove();
+        const link = document.createElement("a");
+
+        link.href = objectURL;
+        link.download = fileName;
+
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        setTimeout(() => URL.revokeObjectURL(objectURL), 1000);
+
+    } catch (error) {
+
+        console.error("خطا در دانلود تصویر:", error);
+
+        alert(
+            "دانلود تصویر انجام نشد. ممکن است سرور اجازهٔ دریافت فایل را ندهد."
+        );
+
+    }
 
 }
 
@@ -343,68 +316,80 @@ function downloadImage(
    SHARE IMAGE
 ========================================================= */
 
-async function shareImage(
-    imageId,
-    title
-) {
+async function shareImage(imagePath, imageId, title) {
 
-    const url =
-        `${window.location.origin}${window.location.pathname}?id=${imageId}`;
+    const url = new URL(
+        "image.html",
+        window.location.href
+    );
 
-
-    if (
-        navigator.share
-    ) {
-
-        try {
-
-            await navigator.share({
-                title: title,
-                text: title,
-                url: url
-            });
-
-        }
-
-        catch (error) {
-
-            if (
-                error.name !==
-                "AbortError"
-            ) {
-
-                console.error(
-                    "خطا در اشتراک‌گذاری:",
-                    error
-                );
-
-            }
-
-        }
-
-        return;
-    }
-
+    url.searchParams.set("id", imageId);
 
     try {
 
-        await navigator.clipboard.writeText(
-            url
-        );
+        if (navigator.share) {
 
+            const response = await fetch(imagePath);
+
+            if (!response.ok) {
+                throw new Error("دریافت فایل تصویر ناموفق بود.");
+            }
+
+            const blob = await response.blob();
+
+            const extension =
+                blob.type.split("/")[1]?.replace("jpeg", "jpg") || "jpg";
+
+            const file = new File(
+                [blob],
+                `${createFileName(title).replace(/\.[^.]+$/, "")}.${extension}`,
+                {
+                    type: blob.type || "image/jpeg"
+                }
+            );
+
+            if (
+                navigator.canShare &&
+                navigator.canShare({ files: [file] })
+            ) {
+
+                await navigator.share({
+                    title: title,
+                    text: `از سامانه مصباح\n${url.href}`,
+                    files: [file]
+                });
+
+            } else {
+
+                await navigator.share({
+                    title: title,
+                    text: `${title}\nاز سامانه مصباح\n${url.href}`,
+                    url: url.href
+                });
+
+            }
+
+            return;
+        }
+
+
+        /* مرورگر بدون Web Share API */
+
+        await navigator.clipboard.writeText(url.href);
 
         alert(
-            "لینک تصویر کپی شد."
+            "مرورگر شما اشتراک‌گذاری مستقیم عکس را پشتیبانی نمی‌کند؛ لینک صفحهٔ تصویر کپی شد."
         );
 
-    }
+    } catch (error) {
 
-    catch (error) {
+        if (error.name === "AbortError") {
+            return;
+        }
 
-        console.error(
-            "خطا در کپی لینک:",
-            error
-        );
+        console.error("خطا در اشتراک‌گذاری تصویر:", error);
+
+        alert("اشتراک‌گذاری تصویر انجام نشد.");
 
     }
 
@@ -412,75 +397,58 @@ async function shareImage(
 
 
 /* =========================================================
-   SAVE
+   SAVE / UNSAVE
+   فقط ذخیرهٔ آیدی تصویر
 ========================================================= */
 
-function toggleSave(item) {
+function toggleSave(imageId) {
 
-    const imageId =
-        item.getAttribute("id");
+    const id = String(imageId);
 
+    let savedItems = [];
 
-    let savedItems =
-        JSON.parse(
-            localStorage.getItem(
-                "mesbah_saved_contents"
-            ) || "[]"
+    try {
+
+        savedItems = JSON.parse(
+            localStorage.getItem("mesbah_saved_images") || "[]"
         );
 
+        if (!Array.isArray(savedItems)) {
+            savedItems = [];
+        }
 
-    const index =
-        savedItems.findIndex(
-            saved =>
-                String(
-                    saved.id
-                ) === String(imageId)
-        );
+    } catch {
 
-
-    if (index !== -1) {
-
-        savedItems.splice(
-            index,
-            1
-        );
+        savedItems = [];
 
     }
 
-    else {
 
-        savedItems.push({
+    const isSaved = savedItems.some(
+        saved => String(saved) === id
+    );
 
-            id: imageId,
 
-            type: "image",
+    if (isSaved) {
 
-            title:
-                getXMLValue(
-                    item,
-                    "title"
-                ),
+        savedItems = savedItems.filter(
+            saved => String(saved) !== id
+        );
 
-            image:
-                getXMLValue(
-                    item,
-                    "image"
-                )
+    } else {
 
-        });
+        savedItems.push(id);
 
     }
 
 
     localStorage.setItem(
-        "mesbah_saved_contents",
+        "mesbah_saved_images",
         JSON.stringify(savedItems)
     );
 
 
-    updateSaveButton(
-        imageId
-    );
+    updateSaveButton(id);
 
 }
 
@@ -501,47 +469,68 @@ function updateSaveButton(imageId) {
         document.getElementById("save-text");
 
 
-    const savedItems =
-        JSON.parse(
-            localStorage.getItem(
-                "mesbah_saved_contents"
-            ) || "[]"
+    if (!saveButton) return;
+
+
+    let savedItems = [];
+
+    try {
+
+        savedItems = JSON.parse(
+            localStorage.getItem("mesbah_saved_images") || "[]"
         );
 
+        if (!Array.isArray(savedItems)) {
+            savedItems = [];
+        }
 
-    const isSaved =
-        savedItems.some(
-            saved =>
-                String(saved.id) === String(imageId) &&
-                saved.type === "image"
-        );
+    } catch {
+
+        savedItems = [];
+
+    }
 
 
-    saveButton.classList.toggle(
-        "is-saved",
-        isSaved
+    const isSaved = savedItems.some(
+        saved => String(saved) === String(imageId)
     );
 
 
-    /* فقط کلاس آیکن موجود را تغییر بده */
-
-    saveIcon.classList.toggle(
-        "fa-solid",
-        isSaved
-    );
-
-    saveIcon.classList.toggle(
-        "fa-regular",
-        !isSaved
-    );
+    saveButton.classList.toggle("is-saved", isSaved);
 
 
-    saveText.textContent =
-        isSaved
+    if (saveIcon) {
+
+        saveIcon.classList.toggle("fa-solid", isSaved);
+        saveIcon.classList.toggle("fa-regular", !isSaved);
+
+    }
+
+
+    if (saveText) {
+
+        saveText.textContent = isSaved
             ? "ذخیره‌شده"
             : "ذخیره";
+
+    }
+
 }
 
+
+/* =========================================================
+   IMAGE FILE NAME
+========================================================= */
+
+function createFileName(title) {
+
+    const safeTitle = (title || "image")
+        .replace(/[\\/:*?"<>|]/g, "")
+        .trim();
+
+    return `${safeTitle || "image"}.jpg`;
+
+}
 
 /* =========================================================
    XML VALUE

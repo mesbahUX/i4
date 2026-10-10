@@ -158,9 +158,8 @@ async function loadBook() {
 
         }
 
-
         /* =================================================
-           PDF
+        PDF
         ================================================= */
 
         const download =
@@ -168,8 +167,17 @@ async function loadBook() {
 
         if (download) {
 
-            download.href =
-                pdf;
+            download.href = pdf;
+
+            const fileName =
+                (title || "کتاب")
+                    .replace(/[<>:"/\\|?*\x00-\x1F]/g, "-")
+                    .trim();
+
+            download.setAttribute(
+                "download",
+                `${fileName}.pdf`
+            );
 
         }
 
@@ -341,91 +349,185 @@ function updateBookSaveButton(
    BOOK SHARE
 ========================================================= */
 
+// async function handleBookShare() {
+
+//     const bookId =
+//         new URLSearchParams(
+//             window.location.search
+//         ).get("id");
+
+//     if (!bookId) return;
+
+
+//     const title =
+//         document
+//             .getElementById("book-title")
+//             ?.textContent
+//             .trim() || "کتاب";
+
+
+//     const pageUrl =
+//         window.location.href;
+
+
+//     if (navigator.share) {
+
+//         try {
+
+//             await navigator.share({
+
+//                 title: title,
+
+//                 text:
+//                     `«${title}»\n\nاز سامانه مصباح`,
+
+//                 url: pageUrl
+
+//             });
+
+//         }
+
+//         catch (error) {
+
+//             if (
+//                 error.name !== "AbortError"
+//             ) {
+
+//                 console.error(
+//                     "BOOK SHARE ERROR:",
+//                     error
+//                 );
+
+//             }
+
+//         }
+
+//         return;
+
+//     }
+
+
+//     /* =========================
+//        BROWSER WITHOUT SHARE
+//     ========================= */
+
+//     try {
+
+//         await navigator.clipboard.writeText(
+//             pageUrl
+//         );
+
+//         alert(
+//             "لینک کتاب کپی شد."
+//         );
+
+//     }
+
+//     catch (error) {
+
+//         console.error(
+//             "BOOK SHARE ERROR:",
+//             error
+//         );
+
+//     }
+
+// }
+
 async function handleBookShare() {
 
-    const bookId =
-        new URLSearchParams(
-            window.location.search
-        ).get("id");
-
-    if (!bookId) return;
-
-
     const title =
-        document
-            .getElementById("book-title")
-            ?.textContent
-            .trim() || "کتاب";
+        document.getElementById("book-title")
+            ?.textContent.trim() || "";
 
+    const author =
+        document.getElementById("book-author")
+            ?.textContent.trim() || "";
 
-    const pageUrl =
-        window.location.href;
+    const publisher =
+        document.getElementById("book-publisher")
+            ?.textContent.trim() || "";
 
+    const year =
+        document.getElementById("book-year")
+            ?.textContent.trim() || "";
 
-    if (navigator.share) {
+    const pdfPath =
+        document.getElementById("book-download")
+            ?.href || "";
 
-        try {
+    const url = window.location.href;
 
-            await navigator.share({
-
-                title: title,
-
-                text:
-                    `«${title}»\n\nاز سامانه مصباح`,
-
-                url: pageUrl
-
-            });
-
-        }
-
-        catch (error) {
-
-            if (
-                error.name !== "AbortError"
-            ) {
-
-                console.error(
-                    "BOOK SHARE ERROR:",
-                    error
-                );
-
-            }
-
-        }
-
-        return;
-
-    }
-
-
-    /* =========================
-       BROWSER WITHOUT SHARE
-    ========================= */
+    const shareText = [
+        title,
+        author ? `نویسنده: ${author}` : "",
+        publisher ? `ناشر: ${publisher}` : "",
+        year ? `سال انتشار: ${year}` : "",
+        "از سامانه مصباح",
+        url
+    ].filter(Boolean).join("\n");
 
     try {
 
-        await navigator.clipboard.writeText(
-            pageUrl
-        );
+        // دریافت و اشتراک‌گذاری خود فایل PDF
+        if (pdfPath && navigator.share && navigator.canShare) {
 
-        alert(
-            "لینک کتاب کپی شد."
-        );
+            const response = await fetch(pdfPath);
 
-    }
+            if (!response.ok) {
+                throw new Error("دریافت فایل PDF ناموفق بود.");
+            }
 
-    catch (error) {
+            const blob = await response.blob();
+
+            const file = new File(
+                [blob],
+                `${title || "book"}.pdf`,
+                { type: "application/pdf" }
+            );
+
+            if (navigator.canShare({ files: [file] })) {
+
+                await navigator.share({
+                    title: title || "کتاب از سامانه مصباح",
+                    text: shareText,
+                    files: [file]
+                });
+
+                return;
+            }
+        }
+
+        // اگر اشتراک‌گذاری فایل پشتیبانی نشد
+        if (navigator.share) {
+
+            await navigator.share({
+                title: title || "کتاب از سامانه مصباح",
+                text: shareText
+            });
+
+        } else {
+
+            await navigator.clipboard.writeText(shareText);
+
+            alert("اطلاعات کتاب و لینک آن کپی شد.");
+
+        }
+
+    } catch (error) {
+
+        if (error.name === "AbortError") return;
 
         console.error(
-            "BOOK SHARE ERROR:",
+            "خطا در اشتراک‌گذاری کتاب:",
             error
         );
+
+        alert("اشتراک‌گذاری انجام نشد.");
 
     }
 
 }
-
 
 /* =========================================================
    BOOK ACTIONS

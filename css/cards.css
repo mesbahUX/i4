@@ -1531,13 +1531,14 @@
 ========================================= */
 
 .image-card-body {
-    padding: 3rem 0 0.5rem;
+    position: relative;
+    z-index: 2;
+
+    padding: 3rem 0 .5rem;
     text-align: right;
     direction: rtl;
-
     transform: translateX(20px);
 }
-
 
 /* =========================================
    TITLE
